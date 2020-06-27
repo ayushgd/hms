@@ -50,6 +50,7 @@
               <li class="nav-item" role="presentation">
                 <a class="nav-link {% if home %} active {% endif %}" href="/">Home</a>
               </li>
+              {% if session['username'] %}
               <li class="nav-item dropdown">
                 <a
                   class="dropdown-toggle nav-link"
@@ -92,6 +93,7 @@
                   >
                 </div>
               </li>
+              
               <li class="nav-item dropdown">
                 <a
                   class="dropdown-toggle nav-link"
@@ -114,6 +116,7 @@
                   >
                 </div>
               </li>
+
               <li class="nav-item dropdown">
                 <a
                   class="dropdown-toggle nav-link"
@@ -136,8 +139,9 @@
                   >
                 </div>
               </li>
+              {% endif %}
               <li class="nav-item" style="background-color: var(--origin); color: var(--light); border-radius: 5px;">
-                {% if g.user %}
+                {% if session.get('username') %}
                 <a class="nav-link" href="/logout" style="color: var(--light);">Logout</a>
                 {% else %}
                 <a class="nav-link" href="/login" style="color: var(--light);">Login</a>

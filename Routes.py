@@ -1,5 +1,5 @@
 from hms import app
-from flask import render_template, session, url_for, request, redirect, flash, g
+from flask import render_template, session, url_for, request, redirect, flash, session
 from .Forms import Login_form
 
 @app.route("/",methods=["GET","POST"])
@@ -12,7 +12,8 @@ def main():
             #Check the credentials
             if request.form.get('username') == 'admin' and request.form.get('password') == 'admin':
                 flash("login successful")
-                g.user = "Admin"
+                #g.user = "Admin"
+                session['username'] = request.form.get('username')
                 return render_template('create_patient.html', alert='success', title="Login", form=form)
             else:
                 flash("login failed")
@@ -29,5 +30,5 @@ def create_patient():
 
 @app.route("/logout")
 def logout():
-    g.user = None
-    return redirect('login')
+    session['username'] = False
+    return redirect(url_for('main'))
