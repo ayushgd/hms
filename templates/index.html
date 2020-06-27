@@ -2,6 +2,13 @@
 
 {% block content %}
 <div class="text-center">
-    <p>Hello</p>
+    {% with messages=get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p>{{message}}</p>
+    
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}
