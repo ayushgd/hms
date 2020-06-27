@@ -26,18 +26,24 @@ def index():
 
 @app.route("/CreatePatient")
 def create_patient():
+    if not session["username"]:
+        return redirect('login')
     return render_template("create_patient.html", title="Create Patient")
 
 @app.route("/DeletePatient")
 def delete_patient():
+    if not session["username"]:
+        return redirect('login')
     return render_template("delete_patient.html", title="Delete Patient")
 
 @app.route("/UpdatePatient")
 def update_patient():
+    if not session["username"]:
+        return redirect('login')
     return render_template("update_patient.html", title="Update Patient")
 
 
 @app.route("/logout")
 def logout():
-    session['username'] = False
+    session['username'] = None
     return redirect(url_for('main'))
