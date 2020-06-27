@@ -9,6 +9,7 @@
 
 body {
   transition: all 1s ease;
+  font-family: 'Oswald', sans-serif !important;
 }
 
 /* Header */
