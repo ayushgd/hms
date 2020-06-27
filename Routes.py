@@ -3,6 +3,7 @@ from flask import render_template, session, url_for, request, redirect, flash
 from .Forms import Login_form
 
 @app.route("/",methods=["GET","POST"])
+@app.route("/login",methods=["GET","POST"])
 def main():
     form=Login_form()
     if form.validate_on_submit():

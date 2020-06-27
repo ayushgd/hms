@@ -1,7 +1,13 @@
 #Virtual ENV
 .hms
 #_pycache_
+<<<<<<< HEAD
 __pycache__/main.cpython-38.pyc
 __pycache__/__init__.cpython-38.pyc
 __pycache__/
 venv/
+=======
+__pycache__/*
+*.pyc
+
+>>>>>>> b7ff2126d948c382ab15690fad8daaae9e551972
