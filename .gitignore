@@ -2,8 +2,11 @@
 .hms
 env/
 #_pycache_
-__pycache__/main.cpython-38.pyc
-__pycache__/__init__.cpython-38.pyc
-__pycache__/
+__pycache__
+*.pyc
 
-
+#config files
+app.yaml
+.gcloudignore
+main.py
+hms

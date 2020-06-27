@@ -2,6 +2,17 @@
 
 {% block content %}
 <div class="text-center">
-    <p>Hello</p>
+    {% with messages=get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    {% if alert == 'failed' %}
+    <div class="alert alert-danger">{{message}}</div>  
+    {% endif %} 
+    {% if alert == 'success' %}
+    <div class="alert alert-success">{{message}}</div>  
+    {% endif %} 
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}
