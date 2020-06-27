@@ -48,7 +48,7 @@
           <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav ml-auto">
               <li class="nav-item" role="presentation">
-                <a class="nav-link active" href="/">Home</a>
+                <a class="nav-link {% if home %} active {% endif %}" href="/">Home</a>
               </li>
               <li class="nav-item dropdown">
                 <a
@@ -165,7 +165,7 @@
         {% endwith %}
       </div>
       <!--Flash message end-->
-      
+
       {% block content %}
       <!-- Block Content goes here -->
       {% endblock %}
