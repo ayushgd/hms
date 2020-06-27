@@ -4,11 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>hms</title>
+    <title>{ title }</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="..static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
 </head>
 
 <body>
@@ -34,7 +34,11 @@
             </div>
         </nav>
     </header>
-    <main></main>
+    <main>
+        {% block content %}
+        <!-- Block Content goes here -->
+        {% endblock %}
+    </main>
     <div class="footer-clean">
         <footer>
             <div class="container">
@@ -55,7 +59,7 @@
                             <li><a href="#">Legacy</a></li>
                         </ul>
                     </div>
-                    <div class="col-sm-4 col-md-3 text-center item" style="padding-top: 0px;padding-bottom: 0px;"><img src="assets/img/logo.svg" style="width: 135px;filter: grayscale(100%) hue-rotate(360deg) invert(100%);"></div>
+                    <div class="col-sm-4 col-md-3 text-center item" style="padding-top: 0px;padding-bottom: 0px;"><img src="../static/img/logo.svg" style="width: 135px;filter: grayscale(100%) hue-rotate(360deg) invert(100%);"></div>
                     <div class="col-lg-3 item social"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-linkedin"></i></a><a href="#"><i class="icon ion-email"></i></a>
                         <p class="copyright">ABC Hospital © 2020</p>
                     </div>
