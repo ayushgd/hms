@@ -6,10 +6,15 @@ from .Forms import Login_form
 @app.route("/login",methods=["GET","POST"])
 def main():
     form=Login_form()
-    if form.validate_on_submit():
-        flash("login successful")
-        return redirect(url_for('index'))
-
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            print(form.username)
+            print(form.password)
+            if request.form.get('username') == 'admin' and request.form.get('password') == 'admin':
+                flash("login successful")
+            else:
+                flash("login failed")
+            return redirect(url_for('index'))
     return render_template('login.html', title="Login", form=form)
 
 @app.route("/index")
