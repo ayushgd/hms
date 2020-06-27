@@ -28,6 +28,15 @@ def index():
 def create_patient():
     return render_template("create_patient.html", title="Create Patient")
 
+@app.route("/DeletePatient")
+def delete_patient():
+    return render_template("delete_patient.html", title="Delete Patient")
+
+@app.route("/UpdatePatient")
+def update_patient():
+    return render_template("update_patient.html", title="Update Patient")
+
+
 @app.route("/logout")
 def logout():
     session['username'] = False
