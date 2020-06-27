@@ -32,7 +32,7 @@ def index():
 
 @app.route("/CreatePatient", methods=['GET','POST'])
 def create_patient():
-    if session["username"] == None or session["username"] == False:
+    if 'username' not in session or not session['username']:
         return redirect('login')
     #If form has been submitted
     if request.method == 'POST':
@@ -53,13 +53,13 @@ def create_patient():
 
 @app.route("/DeletePatient")
 def delete_patient():
-    if not session["username"]:
+    if 'username' not in session:
         return redirect('login')
     return render_template("delete_patient.html", title="Delete Patient")
 
 @app.route("/UpdatePatient")
 def update_patient():
-    if not session["username"]:
+    if 'username' not in session:
         return redirect('login')
     return render_template("update_patient.html", title="Update Patient")
 
