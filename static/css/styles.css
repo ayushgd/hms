@@ -1,3 +1,10 @@
+:root{
+  --main-color: #abd6da;
+  --dark: #111;
+  --origin: #2e8690;
+  --light: #e7fdff;
+}
+
 /* Body */
 
 body {
@@ -7,7 +14,7 @@ body {
 /* Header */
 
 header, .footer-clean {
-  background: #abd6da !important;
+  background: var(--main-color) !important;
 }
 
 .navigation-clean {
@@ -177,8 +184,7 @@ header, .footer-clean {
 
 .footer-clean {
   padding: 50px 0;
-  background-color: #fff;
-  color: #4b4c4d;
+  color: var(--dark);
 }
 
 .footer-clean h3 {
@@ -231,7 +237,7 @@ header, .footer-clean {
   display: inline-block;
   text-align: center;
   border-radius: 50%;
-  border: 1px solid #ccc;
+  border: 1px solid var(--origin);
   margin-left: 10px;
   margin-top: 22px;
   color: inherit;
@@ -260,4 +266,43 @@ header, .footer-clean {
   font-size: 13px;
   opacity: 0.6;
 }
+
+/* Login Form */
+
+.login-container{
+  margin: 30px auto;
+  text-align: center;
+  width: 500px;
+  border-radius: 30px;
+}
+
+.login-form-2{
+  padding: 5%;
+  background: var(--main-color);
+  border-radius: 20px;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+.login-form-2 h3{
+  text-align: center;
+  color: var(--dark);
+}
+.login-container form{
+  padding: 10%;
+}
+.btnSubmit
+{
+  width: 50%;
+  border-radius: 1rem;
+  padding: 1.5%;
+  border: none;
+  cursor: pointer;
+}
+
+.login-form-2 .btnSubmit{
+  font-weight: 600;
+  color: var(--light);
+  background-color: var(--dark);
+}
+
+
 
