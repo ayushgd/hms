@@ -11,6 +11,8 @@ from .Config import db
 @app.route("/",methods=["GET","POST"])
 @app.route("/login",methods=["GET","POST"])
 def main():
+    if 'username' in session:
+        return render_template('index.html', user=session['username'])
     form=Login_form()
     if request.method == 'POST':
         #Validate the form

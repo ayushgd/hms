@@ -1,18 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="text-center">
-    {% with messages=get_flashed_messages() %}
-    {% if messages %}
-    {% for message in messages %}
-    {% if alert == 'failed' %}
-    <div class="alert alert-danger">{{message}}</div>  
-    {% endif %} 
-    {% if alert == 'success' %}
-    <div class="alert alert-success">{{message}}</div>  
-    {% endif %} 
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
+<div class="text-center" style="margin: 3em auto;">
+    <h1>Welcome back, {{ user }} !</h1>
 </div>
 {% endblock %}
