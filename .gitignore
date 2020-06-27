@@ -1,2 +1,4 @@
 #Virtual ENV
 .hms
+#_pycache_
+__pycache__/main.cpython-38.pyc
