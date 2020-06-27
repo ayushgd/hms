@@ -9,19 +9,23 @@
     <div>
         <div class="login-form-2 text-center">
             <h3>Delete a Patient</h3>
-            <form name="patient" method="POST" action="/" id="form1" novalidate>
+            <form name="patient" method="POST" action="/patient" id="form1" novalidate>
                 
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Patient SSN ID" value="" />
                 </div>
+                <div class="form-group ">
+                    <input type="submit" class="btnSubmit text-center" value="Get Patient"/>                    
+                </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Patient Name" value="" />
+                    <input type="text" class="form-control" placeholder="Patient Name" value="" disabled/>
                 </div>
                 <div class="form-group">
                     <input type="number" class="form-control" placeholder="Age" value="" min="1"/>
                 </div>
                 <div class="form-group">
-                    <input type="date" class="form-control" placeholder="Date of Admission" value="" />
+                    <label for="doa">Date of Admission</label>
+                    <input name="doa" type="date" class="form-control" placeholder="Date of Admission" value="" />
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Patient SSN ID" value="" />
@@ -49,9 +53,7 @@
                     <input type="submit" class="btnSubmit" value="Create" /> 
                                      
                 </div>
-                <div class="form-group ">
-                    <input class="btnSubmit text-center" value="Reset" onclick="Reset()"/>                    
-                </div>
+                
             </form>
         </div>
     </div>
