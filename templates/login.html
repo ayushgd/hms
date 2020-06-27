@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12 login-form-2 text-center">
             <h3>Login</h3>
-            <form method="POST" action={{url_for("main")}} novalidate>
+            <form method="POST" action="/" novalidate>
                 {{ form.hidden_tag() }}
                 <div class="form-group">
                    {{form.username(class_="form-control",placeholder="login id")}} 
