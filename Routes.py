@@ -21,3 +21,7 @@ def main():
 @app.route("/index")
 def index():
     return render_template("index.html")
+
+@app.route("/CreatePatient")
+def create_patient():
+    return render_template("create_patient.html", title="Create Patient")
