@@ -1,6 +1,7 @@
 from hms import app
 from flask import render_template, session, url_for, request, redirect, flash, session
 from .Forms import Login_form
+from Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 
 @app.route("/",methods=["GET","POST"])
 @app.route("/login",methods=["GET","POST"])
