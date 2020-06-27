@@ -155,15 +155,14 @@
     <main>
       <!--Flash message start-->
       <div class="text-center">
+        {% if alert %}
+        <div class="alert alert-danger">{{alert}}</div>  
+        {% endif %} 
         {% with messages=get_flashed_messages() %}
         {% if messages %}
         {% for message in messages %}
-        {% if alert == 'failed' %}
-        <div class="alert alert-danger">{{message}}</div>  
-        {% endif %} 
-        {% if alert == 'success' %}
         <div class="alert alert-success">{{message}}</div>  
-        {% endif %} 
+    
         {% endfor %}
         {% endif %}
         {% endwith %}

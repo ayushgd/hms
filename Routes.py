@@ -1,12 +1,17 @@
 from hms import app
 from datetime import datetime
 from flask import render_template, session, url_for, request, redirect, flash, session
+<<<<<<< HEAD
 from .Forms import Login_form
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 from .Config import db
 
 #from Database import create_p
 
+=======
+from .Forms import Login_form,Patient_create
+#from Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
+>>>>>>> 4e356c477af4037e2f66730c84e028427e5cf305
 
 @app.route("/",methods=["GET","POST"])
 @app.route("/login",methods=["GET","POST"])
@@ -20,9 +25,9 @@ def main():
                 flash("login successful")
                 #g.user = "Admin"
                 session['username'] = request.form.get('username')
-                return render_template('create_patient.html', alert='success', title="Login", form=form)
+                return redirect(url_for('create_patient'))
             else:
-                flash("login failed")
+            
                 return render_template('login.html', alert='failed', title="Login", form=form)
     return render_template('login.html', title="Login", form=form)
 
@@ -34,6 +39,7 @@ def index():
 def create_patient():
     if session["username"] == None or session["username"] == False:
         return redirect('login')
+<<<<<<< HEAD
     #If form has been submitted
     if request.method == 'POST':
         ssn_id = request.form.get('ssn_id')
@@ -50,6 +56,10 @@ def create_patient():
         db.session.commit()
         flash("Succefully Created")
     return render_template("create_patient.html", title="Create Patient")
+=======
+    form=Patient_create()
+    return render_template("create_patient.html", title="Create Patient",form=form)
+>>>>>>> 4e356c477af4037e2f66730c84e028427e5cf305
 
 @app.route("/DeletePatient")
 def delete_patient():
