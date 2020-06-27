@@ -12,9 +12,10 @@ def main():
             print(form.password)
             if request.form.get('username') == 'admin' and request.form.get('password') == 'admin':
                 flash("login successful")
+                return render_template('index.html', alert='success')
             else:
                 flash("login failed")
-            return redirect(url_for('index'))
+                return render_template('index.html', alert='failed')
     return render_template('login.html', title="Login", form=form)
 
 @app.route("/index")
