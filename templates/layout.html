@@ -21,6 +21,7 @@
     />
     <link rel="stylesheet" href="../static/css/styles.css" />
     {% block head %}
+    <!-- internal css goes here -->
     {% endblock %}
   </head>
 
@@ -135,11 +136,11 @@
                   >
                 </div>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" style="background-color: var(--origin); color: var(--light); border-radius: 5px;">
                 {% if g.user %}
-                <a class="nav-link" href="/logout">Logout</a>
+                <a class="nav-link" href="/logout" style="color: var(--light);">Logout</a>
                 {% else %}
-                <a class="nav-link" href="/login">Login</a>
+                <a class="nav-link" href="/login" style="color: var(--light);">Login</a>
                 {% endif %}
               </li>
             </ul>
@@ -198,7 +199,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     {% block script %}
-    
+    <!-- internal script goes here -->
     {% endblock %}
   </body>
 </html>
