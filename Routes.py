@@ -7,15 +7,15 @@ from .Forms import Login_form
 def main():
     form=Login_form()
     if request.method == 'POST':
+        #Validate the form
         if form.validate_on_submit():
-            print(form.username)
-            print(form.password)
+            #Check the credentials
             if request.form.get('username') == 'admin' and request.form.get('password') == 'admin':
                 flash("login successful")
-                return render_template('index.html', alert='success')
+                return render_template('login.html', alert='success', title="Login", form=form)
             else:
                 flash("login failed")
-                return render_template('index.html', alert='failed')
+                return render_template('login.html', alert='failed', title="Login", form=form)
     return render_template('login.html', title="Login", form=form)
 
 @app.route("/index")
