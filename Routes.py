@@ -1,7 +1,12 @@
 from hms import app
+from datetime import datetime
 from flask import render_template, session, url_for, request, redirect, flash, session
 from .Forms import Login_form
-from Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
+from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
+from .Config import db
+
+#from Database import create_p
+
 
 @app.route("/",methods=["GET","POST"])
 @app.route("/login",methods=["GET","POST"])
@@ -25,10 +30,25 @@ def main():
 def index():
     return render_template("index.html")
 
-@app.route("/CreatePatient")
+@app.route("/CreatePatient", methods=['GET','POST'])
 def create_patient():
-    if not session["username"]:
+    if session["username"] == None or session["username"] == False:
         return redirect('login')
+    #If form has been submitted
+    if request.method == 'POST':
+        ssn_id = request.form.get('ssn_id')
+        name = request.form.get('patient_name')
+        age = int(request.form.get('patient_age'))
+        date = datetime.strptime(request.form.get('date'), "%Y-%m-%d").date()
+        bed_type = request.form.get('bed')
+        address = request.form.get('address')
+        state = request.form.get('state_list')
+        city = request.form.get('stt')
+        #create_p([ssn_id, name, age, date, bed_type, address, state, city])
+        details = Patient_details(name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
+        db.session.add(details)
+        db.session.commit()
+        flash("Succefully Created")
     return render_template("create_patient.html", title="Create Patient")
 
 @app.route("/DeletePatient")

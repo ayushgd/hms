@@ -1,8 +1,6 @@
 import os
-from hms import app
-
-app = Flask(__name__)
-app.secret_key = os.urandom(24)
+from flask_sqlalchemy import SQLAlchemy
+from hms import app, Flask
 
 class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY') or "hospitalMS"

@@ -9,39 +9,35 @@
     <div>
         <div class="login-form-2 text-center">
             <h3>Patient Registration</h3>
-            <form name="patient" method="POST" action="/" id="form1" novalidate>
+            <form name="patient" method="POST" action="/CreatePatient" id="form1" novalidate>
                 
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Patient SSN ID" value="" />
+                    <input name="ssn_id" type="text" class="form-control" placeholder="Patient SSN ID" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Patient Name" value="" />
+                    <input name="patient_name" type="text" class="form-control" placeholder="Patient Name" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="number" class="form-control" placeholder="Age" value="" min="1"/>
+                    <input name="patient_age" type="number" class="form-control" placeholder="Age" value="" min="1"/>
                 </div>
                 <div class="form-group">
-                    <input type="date" class="form-control" placeholder="Date of Admission" value="" />
+                    <input name="date" type="date" class="form-control" placeholder="Date of Admission" value="" />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Patient SSN ID" value="" />
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Patient SSN ID" value="" />
-                </div>
-                <div class="form-group">
-                    <select id="bed-type" name="bed-type" form="patient" class="form-control">
-                        <option value="">Select a bed type....</option>
+                    <select id="bed-type" name="bed" form="patient" class="form-control">
                         <option value="general">General</option>
                         <option value="semi">Semi</option>
                         <option value="single">Single</option>
                     </select>
                 </div>
                 <div class="form-group">
+                    <input name="address" type="text" class="form-control" placeholder="Address">
+                </div>
+                <div class="form-group">
                     <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="form-control"></select>                   
                 </div>
                 <div class="form-group">
-                    <select id ="state" class="form-control">
+                    <select name="state_list" id ="state" class="form-control">
                         <option value="">Select city</option>
                     </select>                    
                 </div>
