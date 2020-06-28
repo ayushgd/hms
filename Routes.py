@@ -55,7 +55,7 @@ def create_patient():
                 name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
             db.session.add(details)
             db.session.commit()
-            flash("Patient Succefully Registered","Success")
+            flash("Patient Succefully Registered","success")
     return render_template("create_patient.html", title="Create Patient",form=form)
 
 

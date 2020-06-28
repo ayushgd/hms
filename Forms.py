@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, IntegerField, Selec
 from wtforms.validators import DataRequired, Email, Length, ValidationError
 import datetime
 from wtforms.fields.html5 import DateField
+from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 
 #custom validator to check password while logging in
 class pass_val(FlaskForm):
@@ -52,7 +53,7 @@ class check_length(FlaskForm):
     def __call__(self,form,field):
         size=len(str(field.data))
         if Patient_details.query.filter_by(ssn_id=str(field.data)).first() != None:
-            raise ValidationError("Patient with that id alresdy exists!")
+            raise ValidationError("Patient with that id already exists!")
         if size<self.min or size>self.max:
             raise ValidationError(self.message)
 
