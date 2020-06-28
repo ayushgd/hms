@@ -50,7 +50,7 @@ def create_patient():
             address = form.address.data
             state = request.form.get('state_list')
             city = request.form.get('stt')
-            #create_p([ssn_id, name, age, date, bed_type, address, state, city])
+            #if(Patient_details.query.filter_by())
             details = Patient_details(
                 name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
             db.session.add(details)
