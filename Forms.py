@@ -50,7 +50,7 @@ class check_length(FlaskForm):
         self.message=message
     def __call__(self,form,field):
         size=len(str(field.data))
-        if Patient_details.query.filter_by(ssn_id=str(field.data)).first() not None:
+        if Patient_details.query.filter_by(ssn_id=str(field.data)).first() != None:
             raise ValidationError("Patient with that id alresdy exists!")
         if size<self.min or size>self.max:
             raise ValidationError(self.message)
@@ -58,7 +58,7 @@ class check_length(FlaskForm):
 
 # class for patient registration form
 class Patient_create(FlaskForm):
-    ssn_id = IntegerField('ssn id', validators=[DataRequired('please enter SSN ID in integer format'), check_length(message="id must be 9 digits long",min=9, max=9])
+    ssn_id = IntegerField('ssn id', validators=[DataRequired('please enter SSN ID in integer format'), check_length(message="id must be 9 digits long",min=9, max=9)])
     patient_name = StringField('patient name', validators=[ DataRequired('please enter name')])
     patient_age = IntegerField('patient age', validators=[ DataRequired('please enter age'), check_length(min=1, max=3, message="age should be 1-3 digits long")])
     date = DateField('enter date', format="%Y-%m-%d", validators=[ DataRequired('please enter date')], default=datetime.date.today())
