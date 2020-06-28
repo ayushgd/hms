@@ -18,11 +18,12 @@ def main():
         if form.validate_on_submit():
             # Check the credentials
             if request.form.get('username') == 'admin' and request.form.get('password') == 'admin':
-                flash("login successful")
+                flash("Login successful","success")
                 #g.user = "Admin"
                 session['username'] = request.form.get('username')
                 return redirect(url_for('create_patient'))
             else:
+                flash("Login Failed","danger")
                 return render_template('login.html', alert='failed', title="Login", form=form)
     return render_template('login.html', title="Login", form=form)
 
@@ -35,7 +36,7 @@ def index():
 @app.route("/CreatePatient", methods=['GET', 'POST'])
 def create_patient():
     if 'username' not in session or not session['username']:
-        flash('please login')
+        flash('Please Login first!','danger')
         return redirect('login')
     # If form has been submitted
     form=Patient_create()
@@ -54,7 +55,7 @@ def create_patient():
                 name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
             db.session.add(details)
             db.session.commit()
-            flash("Succefully Created")
+            flash("Patient Succefully Registered","Success")
     return render_template("create_patient.html", title="Create Patient",form=form)
 
 
