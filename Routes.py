@@ -23,7 +23,6 @@ def main():
                 session['username'] = request.form.get('username')
                 return redirect(url_for('create_patient'))
             else:
-
                 return render_template('login.html', alert='failed', title="Login", form=form)
     return render_template('login.html', title="Login", form=form)
 
