@@ -12,28 +12,31 @@ class pass_val(FlaskForm):
     def __call__(self,form,field):
         nflag=0
         cflag=0
+        upflag=0
         x=str(field.data)
         
         for i in x:
             if i==" ":
-                raise ValidationError('space not allowed in passwords')
+                raise ValidationError('Space not allowed in passwords')
                 break;
             if i.isnumeric():
                 nflag+=1
             
             if (not i.isalnum()) and (not i ==' '):
                 cflag+=1
-        if nflag==0 or cflag==0:
+            if i.isupper():
+                upflag+=1
+        if nflag==0 or cflag==0 or upflag==0:
             raise ValidationError(self.message)
         if len(x)!=10:
-            raise ValidationError("password length must be 10 charachters long")
+            raise ValidationError("Password length must be 10 charachters long")
 
 
     
 # class for login page form
 class Login_form(FlaskForm):
     username = StringField('username', validators=[DataRequired(),Length(min=8,message="ID should be atleast 8 characters long")])
-    password = PasswordField('password', validators=[DataRequired(),Length(min=10,max=10,message=""),pass_val(message="password should have atleast 1 numeric and 1 special character and should be 10 charachters long")])
+    password = PasswordField('password', validators=[DataRequired(),Length(min=10,max=10,message=""),pass_val(message="password should have atleast 1 numeric and 1 special character and 1 uppercase and should be 10 charachters long")])
     submit = SubmitField('login')
 
 
