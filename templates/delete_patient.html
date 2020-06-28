@@ -9,10 +9,15 @@
     <div>
         <div class="login-form-2 text-center">
             <h3>Delete a Patient</h3>
-            <form name="patient" method="POST" action="/patient" id="form1" novalidate>
+            <form name="patient" method="POST" action={{url_for('delete_patient')}} id="form1" novalidate>
+                {{form.hidden_tag()}}
                 
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Patient SSN ID" value="" />
+                    {{form.ssn_id.label}}
+                    {{form.ssn_id(class_="form-control",placeholder="SSN ID")}}
+                    {% for err in form.ssn_id.errors %}
+                    <span style="color: red;">[{{ err }}]</span>
+                     {% endfor %}
                 </div>
                 <div class="form-group ">
                     <input type="submit" class="btnSubmit text-center" value="Get Patient"/>                    
