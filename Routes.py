@@ -35,6 +35,7 @@ def index():
 @app.route("/CreatePatient", methods=['GET', 'POST'])
 def create_patient():
     if 'username' not in session or not session['username']:
+        flash('please login')
         return redirect('login')
     # If form has been submitted
     if request.method == 'POST':

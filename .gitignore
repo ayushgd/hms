@@ -10,3 +10,5 @@ app.yaml
 .gcloudignore
 main.py
 hms
+
+venv/
