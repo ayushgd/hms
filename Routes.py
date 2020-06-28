@@ -1,7 +1,7 @@
 from hms import app
 from datetime import datetime
 from flask import render_template, session, url_for, request, redirect, flash, session
-from .Forms import Login_form
+from .Forms import Login_form,Patient_create
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 from .Config import db
 
@@ -38,22 +38,24 @@ def create_patient():
         flash('please login')
         return redirect('login')
     # If form has been submitted
+    form=Patient_create()
     if request.method == 'POST':
-        ssn_id = request.form.get('ssn_id')
-        name = request.form.get('patient_name')
-        age = int(request.form.get('patient_age'))
-        date = datetime.strptime(request.form.get('date'), "%Y-%m-%d").date()
-        bed_type = request.form.get('bed')
-        address = request.form.get('address')
-        state = request.form.get('state_list')
-        city = request.form.get('stt')
-        #create_p([ssn_id, name, age, date, bed_type, address, state, city])
-        details = Patient_details(
-            name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
-        db.session.add(details)
-        db.session.commit()
-        flash("Succefully Created")
-    return render_template("create_patient.html", title="Create Patient")
+        if form.validate_on_submit():
+            ssn_id = form.ssn_id.data
+            name = form.patient_name.data
+            age = form.patient_age.data
+            date = form.date.data
+            bed_type = form.Type_of_bed.data
+            address = form.address.data
+            state = request.form.get('state_list')
+            city = request.form.get('stt')
+            #create_p([ssn_id, name, age, date, bed_type, address, state, city])
+            details = Patient_details(
+                name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
+            db.session.add(details)
+            db.session.commit()
+            flash("Succefully Created")
+    return render_template("create_patient.html", title="Create Patient",form=form)
 
 
 @app.route("/DeletePatient")

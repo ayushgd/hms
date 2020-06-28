@@ -10,34 +10,49 @@
         <div class="login-form-2 text-center">
             <h3>Patient Registration</h3>
             <form name="patient" method="POST" action="/CreatePatient" id="form1">
-                
+                {{form.hidden_tag()}}
+        
                 <div class="form-group">
-                    <label for="ssn_id">Patient SSN ID</label>
-                    <input name="ssn_id" type="text" class="form-control" placeholder="Patient SSN ID" value=""  required/>
+                    {{form.ssn_id.label}}
+                    {{form.ssn_id(class_="form-control",placeholder="SSN ID")}}
+                    {% for err in form.ssn_id.errors %}
+                    <span style="color: red;">[{{ err }}]</span>
+                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    <label for="patient_name">Patient's Name</label>
-                    <input name="patient_name" type="text" class="form-control" placeholder="Patient Name" value=""  required/>
+                    {{form.patient_name.label}}
+                    {{form.patient_name(class_="form-control",placeholder="Patient name")}}
+                    {% for err in form.patient_name.errors %}
+                    <span style="color: red;">[{{ err }}]</span>
+                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    <label for="patient_age">Patent's Age</label>
-                    <input name="patient_age" type="number" class="form-control" placeholder="Age" value="" min="1" required/>
+                    {{form.patient_age.label}}
+                    {{form.patient_age(class_="form-control",placeholder="Age")}}
+                    {% for err in form.patient_age.errors %}
+                    <span style="color: red;">[{{ err }}]</span>
+                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    <label for="date">Date of Admission</label>
-                    <input name="date" type="date" class="form-control" placeholder="Date of Admission" value=""  required/>
+                    {{form.date.label}}
+                    {{form.date(class_="form-control",placeholder="CCYY-MM-DD")}}
+                    {% for err in form.date.errors %}
+                    <span style="color: red;">[{{ err }}]</span>
+                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    <label for="bed">Select a bed type</label>
-                    <select id="bed-type" name="bed" class="form-control" required>
-                        <option value="general">General</option>
-                        <option value="semi">Semi</option>
-                        <option value="single">Single</option>
-                    </select>
+                    {{form.Type_of_bed.label}}
+                    {{form.Type_of_bed(class_="form-control",placeholder="Type of Bed")}}
+                    {% for err in form.Type_of_bed.errors %}
+                    <span style="color: red;">[{{ err }}]</span>
+                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    <label for="address">Address</label>
-                    <input name="address" type="text" class="form-control" placeholder="Address" required>
+                    {{form.address.label}}
+                    {{form.address(class_="form-control",placeholder="Address")}}
+                    {% for err in form.address.errors %}
+                    <span style="color: red;">[{{ err }}]</span>
+                     {% endfor %}
                 </div>
                 <div class="form-group">
                     <label for="stt">Select State</label>
@@ -49,7 +64,8 @@
                     </select>                    
                 </div>
                 <div class="form-group" style="display: inline;">
-                    <input type="submit" class="btnSubmit" value="Create" style="float: left; width: 50%;"/>
+                    <!--<input type="submit" class="btnSubmit" value="Create" style="float: left; width: 50%;"/>-->
+                    {{form.submit(class="btnSubmit")}}
                     <input class="btnSubmit text-center" value="🔃 Reset " onclick="Reset()" style="float: right; width: 40%;"/>                    
                 </div>
             </form>
