@@ -10,7 +10,7 @@ from .Config import db
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def main():
-    if 'username' in session:
+    if session.get('username'):
         return render_template('index.html', user=session['username'])
     form = Login_form()
     if request.method == 'POST':
@@ -71,5 +71,7 @@ def update_patient():
 
 @app.route("/logout")
 def logout():
-    session['username'] = None
-    return redirect(url_for('main'))
+    if session['username']:
+        #return render_template('index.html', user=session['username'])
+        session['username'] = None
+        return redirect(url_for('main'))
