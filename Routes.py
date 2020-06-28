@@ -17,7 +17,7 @@ def main():
         # Validate the form
         if form.validate_on_submit():
             # Check the credentials
-            if request.form.get('username') == 'admin' and request.form.get('password') == 'admin':
+            if request.form.get('username') == '12345678@A' and request.form.get('password') == '12345678@A':
                 flash("Login successful","success")
                 #g.user = "Admin"
                 session['username'] = request.form.get('username')
