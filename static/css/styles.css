@@ -279,6 +279,14 @@ header, .footer-clean {
   border-radius: 30px;
 }
 
+label {
+  margin-bottom: 0px !important;
+}
+
+.form-group {
+  margin-bottom: .8rem;
+}
+
 .login-form-2{
   padding: 5%;
   background: var(--main-color);
@@ -295,7 +303,7 @@ header, .footer-clean {
 .btnSubmit
 {
   width: 50%;
-  border-radius: 1rem;
+  border-radius: .5rem;
   padding: 1.5%;
   border: none;
   cursor: pointer;

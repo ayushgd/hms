@@ -9,43 +9,48 @@
     <div>
         <div class="login-form-2 text-center">
             <h3>Patient Registration</h3>
-            <form name="patient" method="POST" action="/CreatePatient" id="form1" novalidate>
+            <form name="patient" method="POST" action="/CreatePatient" id="form1">
                 
                 <div class="form-group">
-                    <input name="ssn_id" type="text" class="form-control" placeholder="Patient SSN ID" value="" />
+                    <label for="ssn_id">Patient SSN ID</label>
+                    <input name="ssn_id" type="text" class="form-control" placeholder="Patient SSN ID" value=""  required/>
                 </div>
                 <div class="form-group">
-                    <input name="patient_name" type="text" class="form-control" placeholder="Patient Name" value="" />
+                    <label for="patient_name">Patient's Name</label>
+                    <input name="patient_name" type="text" class="form-control" placeholder="Patient Name" value=""  required/>
                 </div>
                 <div class="form-group">
-                    <input name="patient_age" type="number" class="form-control" placeholder="Age" value="" min="1"/>
+                    <label for="patient_age">Patent's Age</label>
+                    <input name="patient_age" type="number" class="form-control" placeholder="Age" value="" min="1" required/>
                 </div>
                 <div class="form-group">
-                    <input name="date" type="date" class="form-control" placeholder="Date of Admission" value="" />
+                    <label for="date">Date of Admission</label>
+                    <input name="date" type="date" class="form-control" placeholder="Date of Admission" value=""  required/>
                 </div>
                 <div class="form-group">
-                    <select id="bed-type" name="bed" class="form-control">
+                    <label for="bed">Select a bed type</label>
+                    <select id="bed-type" name="bed" class="form-control" required>
                         <option value="general">General</option>
                         <option value="semi">Semi</option>
                         <option value="single">Single</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <input name="address" type="text" class="form-control" placeholder="Address">
+                    <label for="address">Address</label>
+                    <input name="address" type="text" class="form-control" placeholder="Address" required>
                 </div>
                 <div class="form-group">
-                    <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="form-control"></select>                   
+                    <label for="stt">Select State</label>
+                    <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="form-control" required></select>                   
                 </div>
                 <div class="form-group">
-                    <select name="state_list" id ="state" class="form-control">
-                        <option value="">Select city</option>
+                    <label for="bed">Select City</label>
+                    <select name="state_list" id ="state" class="form-control" required>
                     </select>                    
                 </div>
-                <div class="form-group">
-                    <input type="submit" class="btnSubmit" value="Create" />                 
-                </div>
-                <div class="form-group ">
-                    <input class="btnSubmit text-center" value="Reset" onclick="Reset()"/>                    
+                <div class="form-group" style="display: inline;">
+                    <input type="submit" class="btnSubmit" value="Create" style="float: left; width: 50%;"/>
+                    <input class="btnSubmit text-center" value="🔃 Reset " onclick="Reset()" style="float: right; width: 40%;"/>                    
                 </div>
             </form>
         </div>
