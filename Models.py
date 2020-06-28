@@ -17,7 +17,7 @@ class Patient_details(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(45), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    ssn_id = db.Column(db.String(45), nullable=False)
+    ssn_id = db.Column(db.String(45), nullable=False, unique=True)
     admission_date = db.Column(db.Date, nullable=False)
     bed_type = db.Column(db.String(45), nullable=False)
     address = db.Column(db.String(45), nullable=False)
