@@ -9,9 +9,16 @@
                 {{ form.hidden_tag() }}
                 <div class="form-group">
                    {{form.username(class_="form-control",placeholder="login id")}} 
+                   {% for err in form.username.errors%}
+                   <span style="color:red">{{err}}</span>
+                   {%endfor%}
                 </div>
                 <div class="form-group">
                   {{form.password(class_="form-control",placeholder='password')}} 
+                  {% for err in form.password.errors%}
+                   <span style="color:red">{{err}}</span>
+                   {%endfor%}
+
                 </div>
                 <div class="form-group">
                    {{ form.submit(class_="btnSubmit") }}
