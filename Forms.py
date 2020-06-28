@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, Email, Length, ValidationError
 import datetime
 from wtforms.fields.html5 import DateField
 
+#custom validator to check password while logging in
 class pass_val(FlaskForm):
     def __init__(self,message):
         if not message:
@@ -40,7 +41,7 @@ class Login_form(FlaskForm):
     submit = SubmitField('login')
 
 
-
+#custom validator to check length of integer input fields
 class check_length(FlaskForm):
     def __init__(self,message,min=-1,max=-1):
         self.min=min
@@ -65,4 +66,7 @@ class Patient_create(FlaskForm):
     submit= SubmitField('create')
 
     
-        
+#class for delete patient form
+class Patient_delete(FlaskForm):
+    ssn_id = IntegerField('ssn id', validators=[DataRequired('please enter SSN ID in integer format'), check_length(message="id must be 9 digits long",min=9, max=9)])
+

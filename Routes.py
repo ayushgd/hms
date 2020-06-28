@@ -1,7 +1,7 @@
 from hms import app
 from datetime import datetime
 from flask import render_template, session, url_for, request, redirect, flash, session
-from .Forms import Login_form,Patient_create
+from .Forms import Login_form,Patient_create,Patient_delete
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 from .Config import db
 
@@ -59,11 +59,17 @@ def create_patient():
     return render_template("create_patient.html", title="Create Patient",form=form)
 
 
-@app.route("/DeletePatient")
+@app.route("/DeletePatient",methods=["GET","POST"])
 def delete_patient():
     if 'username' not in session:
         return redirect('login')
-    return render_template("delete_patient.html", title="Delete Patient")
+    form=Patient_delete()
+    if form.validate_on_submit():
+        flash("patient found","success")
+    
+
+        
+    return render_template("delete_patient.html", title="Delete Patient",form=form)
 
 
 @app.route("/UpdatePatient")
