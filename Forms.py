@@ -71,5 +71,9 @@ class Patient_create(FlaskForm):
     
 #class for delete patient form
 class Patient_delete(FlaskForm):
-    ssn_id = IntegerField('ssn id', validators=[DataRequired('please enter SSN ID in integer format'), check_length(message="id must be 9 digits long",min=9, max=9)])
+    patient_id = IntegerField('Patient id', validators=[DataRequired('please enter Patient ID in integer format')])  #check_length(message="id must be 9 digits long",min=9, max=9)])
+    submit=SubmitField('Search')
+
+class delete_result(FlaskForm):
+    submit=SubmitField('delete')
 

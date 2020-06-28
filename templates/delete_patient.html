@@ -13,14 +13,15 @@
                 {{form.hidden_tag()}}
                 
                 <div class="form-group">
-                    {{form.ssn_id.label}}
-                    {{form.ssn_id(class_="form-control",placeholder="SSN ID")}}
-                    {% for err in form.ssn_id.errors %}
+                    {{form.patient_id.label}}
+                    {{form.patient_id(class_="form-control",placeholder="PATIENT ID")}}
+                    {% for err in form.patient_id.errors %}
                     <span style="color: red;">[{{ err }}]</span>
                      {% endfor %}
                 </div>
                 <div class="form-group ">
-                    <input type="submit" class="btnSubmit text-center" value="Get Patient"/>                    
+                      
+                    {{form.submit(class_='btnSubmit text-center')}}                 
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Patient Name" value="" disabled/>
@@ -29,7 +30,7 @@
                     <input type="number" class="form-control" placeholder="Age" value="" min="1" disabled/>
                 </div>
                 <div class="form-group">
-                    <label for="doa">Date of Admission</label>
+                    
                     <input name="doa" type="date" class="form-control" placeholder="Date of Admission" value="" disabled/>
                 </div>
                 <div class="form-group">
@@ -55,7 +56,7 @@
                     </select>                    
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btnSubmit" value="Delete" /> 
+                    <input type="submit" class="btnSubmit" value="Delete" disabled> 
                                      
                 </div>
                 
