@@ -42,9 +42,7 @@ def create_patient():
     # If form has been submitted
     form=Patient_create()
     if request.method == 'POST':
-        if form.validate_on_submit():
-            
-            
+        if form.validate_on_submit():         
             ssn_id = form.ssn_id.data
             name = form.patient_name.data
             age = form.patient_age.data
@@ -53,9 +51,7 @@ def create_patient():
             address = form.address.data
             state = request.form.get('stt')
             city = request.form.get('state_list')
-            #if(Patient_details.query.filter_by())
-            details = Patient_details(
-                name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
+            details = Patient_details(name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
             db.session.add(details)
             db.session.commit()
             flash("Patient creation initiated successfully","success")
@@ -121,7 +117,7 @@ def update_patient():
 
 @app.route("/ViewAllPatients")
 def view_patient():
-    patient = Patient_details.query.all()
+    patient = Patient_details.query.filter_by(status="Admitted")
     return render_template("view_patients.html", patients = patient)
 
 @app.route("/logout")
