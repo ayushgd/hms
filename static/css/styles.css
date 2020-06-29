@@ -319,7 +319,7 @@ label {
 /* Table */
 
 .results tr[visible='false'], .no-result {
-  display: none !important;
+  display: none;
 }
 
 .counter {

@@ -10,7 +10,7 @@
 <table class="table table-hover table-bordered results table-striped text-center" style="border-color: var(--dark)">
   <thead>
     <tr>
-      <th>Paient ID</th>
+      <th>Patient ID</th>
       <th>Name</th>
       <th>Age</th>
       <th>Address</th>
@@ -18,13 +18,13 @@
       <th>Room Type</th>
     </tr>
     <tr class="warning no-result">
-      <td colspan="4"><i class="fa fa-warning"></i> No result</td>
+      <td colspan="6"><i class="fa fa-warning"></i> No result</td>
     </tr>
   </thead>
   <tbody>
     {% for p in patients %}
     <tr>
-      <th scope="row">{{p.ssn_id}}</th>
+      <th scope="row">{{p.id}}</th>
       <td>{{p.name}}</td>
       <td>{{p.age}}</td>
       <td>{{p.address}}, {{p.city}}, {{p.state}}</td>
