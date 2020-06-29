@@ -82,7 +82,11 @@ def delete_patient():
 def delete_patient2():
     form2=delete_result()
     if form2.validate_on_submit():
-        flash("patient deleted successfully","success")
+        pid=int(request.form.get('pid'))
+        patient=Patient_details.query.filter(Patient_details.id==pid).delete()
+        db.session.commit()
+        
+        flash("patient deleted successfully with id {}".format(pid),"success")
         
         return redirect(url_for('delete_patient'))
     else:
