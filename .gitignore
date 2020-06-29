@@ -1,6 +1,14 @@
 #Virtual ENV
 .hms
+env/
 #_pycache_
-__pycache__/*
+__pycache__
 *.pyc
 
+#config files
+app.yaml
+.gcloudignore
+main.py
+hms
+
+venv/

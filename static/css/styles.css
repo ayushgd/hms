@@ -9,7 +9,9 @@
 
 body {
   transition: all 1s ease;
+  font-family: 'Oswald', sans-serif !important;
 }
+
 
 /* Header */
 
@@ -272,8 +274,17 @@ header, .footer-clean {
 .login-container{
   margin: 30px auto;
   text-align: center;
-  width: 500px;
+  max-width: 500px;
+  width: 95vw;
   border-radius: 30px;
+}
+
+label {
+  margin-bottom: 0px !important;
+}
+
+.form-group {
+  margin-bottom: .8rem;
 }
 
 .login-form-2{
@@ -292,7 +303,7 @@ header, .footer-clean {
 .btnSubmit
 {
   width: 50%;
-  border-radius: 1rem;
+  border-radius: .5rem;
   padding: 1.5%;
   border: none;
   cursor: pointer;
