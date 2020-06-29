@@ -71,7 +71,6 @@ def delete_patient():
     if form.validate_on_submit():
         patient=Patient_details.query.filter(Patient_details.id==int(form.patient_id.data))
         for patient_1 in patient:
-            flag=1
             if patient_1:
                 form2=delete_result()
                 flash("patient found","success")
