@@ -26,7 +26,8 @@ class Patient_details(db.Model):
     status = db.Column(db.String(45), nullable=False)
     #patient_test_id = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, name, age, ssn_id, admission_date, bed_type, address, city, state, status):
+    def __init__(self,name, age, ssn_id, admission_date, bed_type, address, city, state, status):
+    
         self.name = name
         self.age = age
         self.ssn_id = ssn_id

@@ -1,6 +1,6 @@
 from hms import app
 from datetime import datetime
-from flask import render_template, session, url_for, request, redirect, flash, session
+from flask import render_template, session, url_for, request, redirect, flash, session,g
 from .Forms import Login_form,Patient_create,Patient_delete,delete_result
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 from .Config import db
@@ -42,6 +42,8 @@ def create_patient():
     form=Patient_create()
     if request.method == 'POST':
         if form.validate_on_submit():
+            
+            
             ssn_id = form.ssn_id.data
             name = form.patient_name.data
             age = form.patient_age.data
