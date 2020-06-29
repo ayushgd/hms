@@ -325,6 +325,7 @@ label {
 .counter {
   padding: 8px;
   color: #ccc;
+  margin: -10px auto 0px;
 }
 
 table {
