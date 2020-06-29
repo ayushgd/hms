@@ -12,12 +12,15 @@
             <form name="patient" method="POST" action={{url_for('delete_patient2')}} id="form1" novalidate>
                 {{form.hidden_tag()}}
                 
+                
                 <div class="form-group">
                     {%for patient1 in patient%}
+                    
                     
                     <label>Patient id</label>
                     <input type="text" class="form-control" placeholder='{{patient1.id}}'  disabled/>
                 </div>
+
                 
                 <div class="form-group">
                     <label>Patient name</label>
