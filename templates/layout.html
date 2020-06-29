@@ -153,22 +153,6 @@
       </nav>
     </header>
     <main>
-      <!--Flash message start-->
-      <!--Old Code
-      <div class="text-center">
-        {% if alert %}
-        <div class="alert alert-danger">{{alert}}</div>  
-        {% endif %} 
-        {% with messages=get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-success">{{message}}</div>  
-    
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-      </div>
-      -->
       <div class="text-center">
         {% with messages=get_flashed_messages(with_categories=true) %}
         {% if messages %}

@@ -13,6 +13,9 @@ body {
   font-family: 'Oswald', sans-serif !important;
 }
 
+main {
+  min-height: 55vh;
+}
 
 /* Header */
 
