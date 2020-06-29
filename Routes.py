@@ -16,8 +16,8 @@ pid = 0
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def main():
-    if session.get('username'):
-        return render_template('index.html', user=session['username'])
+    if session.get('user'):
+        return render_template('index.html', user=session['user'])
     form = Login_form()
     if request.method == 'POST':
         # Validate the form
@@ -25,12 +25,11 @@ def main():
             # Check the credentials
             if request.form.get('username') == '12345678@A' and request.form.get('password') == '12345678@A':
                 flash("Login successful", "success")
-                #g.user = "Admin"
-                session['username'] = request.form.get('username')
+                session['user'] = request.form.get('username')
                 return redirect(url_for('create_patient'))
             else:
                 flash("Invalid credentials", "danger")
-                return render_template('login.html', alert='failed', title="Login", form=form)
+                return render_template('login.html', title="Login", form=form)
     return render_template('login.html', title="Login", form=form)
 
 
@@ -39,13 +38,14 @@ def index():
     return render_template("index.html")
 
 # ==================================================================================
-#                                   Patient Registration
+#                                 Patient Registration
 # ==================================================================================
 
 
 @app.route("/CreatePatient", methods=['GET', 'POST'])
 def create_patient():
-    if 'username' not in session or not session['username']:
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
         flash('Please Login first!', 'danger')
         return redirect('login')
     # If form has been submitted
@@ -75,7 +75,9 @@ def create_patient():
 
 @app.route("/DeletePatient", methods=["GET", "POST"])
 def delete_patient():
-    if 'username' not in session:
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
         return redirect('login')
     form = Patient_delete()
     if form.validate_on_submit():
@@ -94,7 +96,9 @@ def delete_patient():
 
 @app.route("/deletepatient2", methods=["GET", "POST"])
 def delete_patient2():
-    if 'username' not in session:
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
         return redirect('login')
     form2 = delete_result()
     if form2.validate_on_submit():
@@ -118,7 +122,9 @@ def delete_patient2():
 
 @app.route("/SearchPatient", methods=["GET", "POST"])
 def search_patient():
-    if 'username' not in session:
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
         return redirect('login')
     form = Patient_delete()
     if request.method == 'POST':
@@ -143,7 +149,9 @@ def search_patient():
 @app.route("/UpdatePatient", methods=["GET", "POST"])
 def update_patient():
     flag = 0
-    if 'username' not in session:
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
         return redirect('login')
     form = Patient_delete()
     if form.validate_on_submit():
@@ -164,7 +172,9 @@ def update_patient():
 
 @app.route("/UpdatePatient2", methods=["GET", "POST"])
 def update_result():
-    if 'username' not in session:
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
         return redirect('login')
     form = Patient_update()
     if request.method == "POST":
@@ -243,6 +253,10 @@ def update_result():
 
 @app.route("/ViewAllPatients")
 def view_patient():
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect('login')
     patient = Patient_details.query.filter_by(status="Admitted")
     return render_template("view_patients.html", patients=patient)
 
@@ -254,7 +268,7 @@ def view_patient():
 
 @app.route("/logout")
 def logout():
-    if session['username']:
-        # return render_template('index.html', user=session['username'])
-        session['username'] = None
+    # Remove user from the session
+    if session['user']:
+        session['user'] = None
         return redirect(url_for('main'))
