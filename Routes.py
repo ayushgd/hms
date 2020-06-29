@@ -51,8 +51,8 @@ def create_patient():
             date = form.date.data
             bed_type = form.Type_of_bed.data
             address = form.address.data
-            state = request.form.get('state_list')
-            city = request.form.get('stt')
+            state = request.form.get('stt')
+            city = request.form.get('state_list')
             #if(Patient_details.query.filter_by())
             details = Patient_details(
                 name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
