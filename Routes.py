@@ -96,7 +96,22 @@ def delete_patient2():
         return redirect(url_for('delete_patient'))
 
 
-
+@app.route("/SearchPatient",methods=["GET","POST"])
+def search_patient():
+    if 'username' not in session:
+        return redirect('login')
+    form=Patient_delete()
+    if request.method == 'POST':   
+        if form.validate_on_submit():
+            global pid 
+            pid = int(form.patient_id.data)
+            patient=Patient_details.query.filter(Patient_details.id==int(form.patient_id.data))
+            for patient_1 in patient:
+                if patient_1:
+                    flash("patient found","success")
+                    return render_template("search_patient.html",title="Search patient",patient=patient, form=form)
+            flash("patient not found","danger")
+    return render_template("search_patient.html", title="Search Patient",form=form)
 
 @app.route("/UpdatePatient")
 def update_patient():
