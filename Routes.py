@@ -111,7 +111,7 @@ def search_patient():
                     flash("patient found","success")
                     return render_template("search_patient.html",title="Search patient",patient=patient, form=form)
             flash("patient not found","danger")
-    return render_template("search_patient.html", title="Search Patient",form=form)
+    return render_template("search_patient2.html", title="Search Patient",form=form)
 
 @app.route("/UpdatePatient")
 def update_patient():
