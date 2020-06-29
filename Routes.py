@@ -51,8 +51,8 @@ def create_patient():
             date = form.date.data
             bed_type = form.Type_of_bed.data
             address = form.address.data
-            city = request.form.get('state_list')
             state = request.form.get('stt')
+            city = request.form.get('state_list')
             #if(Patient_details.query.filter_by())
             details = Patient_details(
                 name, age, ssn_id, date, bed_type, address, city, state, status="Active")
@@ -113,7 +113,7 @@ def search_patient():
                     flash("patient found","success")
                     return render_template("search_patient.html",title="Search patient",patient=patient, form=form)
             flash("patient not found","danger")
-    return render_template("search_patient2.html", title="Search Patient",form=form)
+    return render_template("search_patient.html", title="Search Patient",form=form)
 
 @app.route("/UpdatePatient",methods=["GET","POST"])
 def update_patient():
@@ -196,6 +196,11 @@ def update_result():
                 flash("Please enter age in integer format and less than or equal to 3 digits in length","danger")
                 form2=Patient_update(Type_of_bed=patient_1.bed_type,date=patient_1.admission_date,address=patient_1.address,patient_name=patient_1.name,patient_age=patient_1.age)
                 return render_template("update_patient.html",title="Update Patient",form=form,form2=form2,flag=flag,patient_s=patient)
+
+@app.route("/ViewAllPatients")
+def view_patient():
+    patient = Patient_details.query.all()
+    return render_template("view_patients.html", patients = patient)
 
 @app.route("/logout")
 def logout():
