@@ -57,7 +57,7 @@ def create_patient():
                 name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
             db.session.add(details)
             db.session.commit()
-            flash("“Patient creation initiated successfully","success")
+            flash("Patient creation initiated successfully","success")
     return render_template("create_patient.html", title="Create Patient",form=form)
 
 
@@ -69,7 +69,6 @@ def delete_patient():
     form=Patient_delete()
     
     if form.validate_on_submit():
-        flag=0
         patient=Patient_details.query.filter(Patient_details.id==int(form.patient_id.data))
         for patient_1 in patient:
             flag=1
@@ -77,9 +76,7 @@ def delete_patient():
                 form2=delete_result()
                 flash("patient found","success")
                 return render_template("delete_patient2.html",title="Delete patient",patient=patient,form=form2)
-    if flag==0:
         flash("patient not found","danger")
-
     return render_template("delete_patient.html", title="Delete Patient",form=form)
 
 @app.route("/deletepatient2",methods=["GET","POST"])
