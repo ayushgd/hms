@@ -141,7 +141,7 @@
               </li>
               {% endif %}
               <li class="nav-item" style="background-color: var(--origin); color: var(--light); border-radius: 5px;">
-                {% if session.get('username') %}
+                {% if session.get('user') %}
                 <a class="nav-link" href="/logout" style="color: var(--light);">Logout</a>
                 {% else %}
                 <a class="nav-link" href="/login" style="color: var(--light);">Login</a>
