@@ -2,6 +2,7 @@
   --main-color: #abd6da;
   --dark: #111;
   --origin: #2e8690;
+  --darkless: #6aa0a7;
   --light: #e7fdff;
 }
 
@@ -315,5 +316,42 @@ label {
   background-color: var(--dark);
 }
 
+/* Table */
 
+.results tr[visible='false'], .no-result {
+  display: none !important;
+}
 
+.counter {
+  padding: 8px;
+  color: #ccc;
+}
+
+table {
+  max-width: 1200px;
+  width: 95vw;
+  margin: 0 auto;
+}
+
+thead tr th {
+  font-weight: normal;
+  background-color: var(--origin) !important;
+  color: var(--light) !important;
+}
+
+#search_bar {
+  width: 300px;
+  margin: 30px auto 0px auto;
+}
+
+table.table-bordered > thead > tr > th{
+  border:2px solid var(--darkless);
+}
+
+table.table-bordered > tbody > tr > td{
+  border:2px solid var(--darkless);
+}
+
+table.table-bordered > tbody > tr > th{
+  border:2px solid var(--darkless);
+}

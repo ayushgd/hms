@@ -119,6 +119,10 @@ def update_patient():
         return redirect('login')
     return render_template("update_patient.html", title="Update Patient")
 
+@app.route("/ViewAllPatients")
+def view_patient():
+    patient = Patient_details.query.all()
+    return render_template("view_patients.html", patients = patient)
 
 @app.route("/logout")
 def logout():
