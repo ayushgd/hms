@@ -58,6 +58,8 @@ class check_length(FlaskForm):
             raise ValidationError(self.message)
 
 
+    
+
 # class for patient registration form
 class Patient_create(FlaskForm):
     ssn_id = IntegerField('ssn id', validators=[DataRequired('please enter SSN ID in integer format'), check_length(message="id must be 9 digits long",min=9, max=9)])
@@ -68,6 +70,10 @@ class Patient_create(FlaskForm):
     address = StringField('enter address', validators=[DataRequired('enter the address')])
     submit= SubmitField('create')
 
+    #Validate date
+    def validate_date(form, date):
+        if date.data > datetime.date.today():
+            raise ValidationError("Date of Admission cannot exceed today's date!")
     
 #class for delete patient form
 class Patient_delete(FlaskForm):
