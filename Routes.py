@@ -26,7 +26,7 @@ def main():
             if request.form.get('username') == '12345678@A' and request.form.get('password') == '12345678@A':
                 flash("Login successful", "success")
                 session['user'] = request.form.get('username')
-                return redirect(url_for('create_patient'))
+                return redirect(url_for('main'))
             else:
                 flash("Invalid credentials", "danger")
                 return render_template('login.html', title="Login", form=form)
