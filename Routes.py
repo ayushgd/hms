@@ -63,22 +63,23 @@ def create_patient():
 
 @app.route("/DeletePatient",methods=["GET","POST"])
 def delete_patient():
+    flag=-1
     if 'username' not in session:
         return redirect('login')
     form=Patient_delete()
+    
     if form.validate_on_submit():
-        
+        flag=0
         patient=Patient_details.query.filter(Patient_details.id==int(form.patient_id.data))
-        if patient:
-            form2=delete_result()
-            flash("patient found","success")
-            return render_template("delete_patient2.html",title="Delete patient",patient=patient,form=form2)
-    
-    
+        for patient_1 in patient:
+            flag=1
+            if patient_1:
+                form2=delete_result()
+                flash("patient found","success")
+                return render_template("delete_patient2.html",title="Delete patient",patient=patient,form=form2)
+    if flag==0:
+        flash("patient not found","danger")
 
-        
-
-        
     return render_template("delete_patient.html", title="Delete Patient",form=form)
 
 @app.route("/deletepatient2",methods=["GET","POST"])
