@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
-from wtforms.validators import DataRequired, Email, Length, ValidationError
+from wtforms.validators import DataRequired, Email, Length, ValidationError, NumberRange
 import datetime
 from wtforms.fields.html5 import DateField
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
@@ -31,7 +31,7 @@ class pass_val(FlaskForm):
         if nflag==0 or cflag==0 or upflag==0:
             raise ValidationError(self.message)
         if len(x)!=10:
-            raise ValidationError("Password length must be 10 charachters long")
+            raise ValidationError("Password length must be 10 characters long")
 
 
     
@@ -62,7 +62,7 @@ class check_length(FlaskForm):
 class Patient_create(FlaskForm):
     ssn_id = IntegerField('ssn id', validators=[DataRequired('please enter SSN ID in integer format'), check_length(message="id must be 9 digits long",min=9, max=9)])
     patient_name = StringField('patient name', validators=[ DataRequired('please enter name')])
-    patient_age = IntegerField('patient age', validators=[ DataRequired('please enter age'), check_length(min=1, max=3, message="age should be 1-3 digits long")])
+    patient_age = IntegerField('patient age', validators=[ DataRequired('please enter age'), check_length(min=1, max=3, message="age should be 1-3 digits long"), NumberRange(min=0, max=150, message="Age should be between 0 and 150!")])
     date = DateField('enter date', format="%Y-%m-%d", validators=[ DataRequired('please enter date')], default=datetime.date.today())
     Type_of_bed = SelectField('bed type', choices=[('General ward', 'General ward'), ('Semi sharing', 'Semi sharing'), ('single room', 'single room')], validators=[DataRequired('select ward type')])
     address = StringField('enter address', validators=[DataRequired('enter the address')])
