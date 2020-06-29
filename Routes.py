@@ -23,7 +23,7 @@ def main():
         # Validate the form
         if form.validate_on_submit():
             # Check the credentials
-            if request.form.get('username') == '12345678@A' and request.form.get('password') == '12345678@A':
+            if UserStore.query.filter_by(login=request.form.get('username'), password=request.form.get('password')).first():
                 flash("Login successful", "success")
                 session['user'] = request.form.get('username')
                 return redirect(url_for('main'))
