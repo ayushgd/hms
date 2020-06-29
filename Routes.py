@@ -6,6 +6,7 @@ from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, 
 from .Config import db
 
 
+pid = 0
 
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
@@ -63,12 +64,12 @@ def create_patient():
 
 @app.route("/DeletePatient",methods=["GET","POST"])
 def delete_patient():
-    flag=-1
     if 'username' not in session:
         return redirect('login')
-    form=Patient_delete()
-    
+    form=Patient_delete()   
     if form.validate_on_submit():
+        global pid 
+        pid = int(form.patient_id.data)
         patient=Patient_details.query.filter(Patient_details.id==int(form.patient_id.data))
         for patient_1 in patient:
             if patient_1:
@@ -82,16 +83,16 @@ def delete_patient():
 def delete_patient2():
     form2=delete_result()
     if form2.validate_on_submit():
-        pid=int(request.form.get('pid'))
-        patient=Patient_details.query.filter(Patient_details.id==pid).delete()
+        global pid
+        print(pid)
+        #delete query
+        Patient_details.query.filter_by(id=pid).delete()
         db.session.commit()
-        
-        flash("patient deleted successfully with id {}".format(pid),"success")
+        flash("patient deleted successfully","success")
         
         return redirect(url_for('delete_patient'))
     else:
-        flash("patient delete failed . Please try again","danger")
-        
+        flash("patient delete failed . Please try again","danger")      
         return redirect(url_for('delete_patient'))
 
 
