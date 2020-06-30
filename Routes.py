@@ -321,6 +321,7 @@ def billing():
             if patient_1:
                 flash("patient found", "success")
             return render_template('billing.html',patient=patient)
+        flash("patient found", "success")
     return render_template('billing.html', form=form)
 
 
