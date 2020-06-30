@@ -289,10 +289,19 @@ def get_patient():
 
 @app.route("/IssueMedicine", methods=["GET", "POST"])
 def issue_medicine():
-    global pid = request.form.pid
-    if Patient_Medicine.query.filter_by(patient_id=pid).first() == None:
-
-    return render_template("issue_medicine.html")
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+        
+    global pid
+    pid = request.form.get('pid')
+    print(pid)
+    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==pid)== None:
+        print("check null")
+    medicine = Patient_Medicine.query.filter(Patient_Medicine.patient_id==pid)
+    print(medicine)
+    return render_template("issue_medicine.html", pid=pid, medicine=medicine)
 
 # ==================================================================================
 #                                 Delete the user Session

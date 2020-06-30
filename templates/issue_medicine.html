@@ -1,21 +1,47 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="container login-container">
+<div class="container login-container" style="padding: 0px 10%">
     <div>
         <div class="login-form-2 text-center">
-            <form method="POST" action="/" novalidate>
+            <h4>Issue Medicine</h4>
+            <form method="POST" action="{{url_for('issue_medicine')}}" style="padding: 10px 10% 0px">
                 <div class="form-group">
-                    <input type="text" placeholder="Medicine Name"/>
+                    <input class="form-control" type="text" placeholder="Medicine Name" name="medicine" required/>
                 </div>
                 <div class="form-group">
-                    <input type="number" placeholder="Quantity"/>
+                    <input class="form-control" type="number" placeholder="Quantity" name="quantity" required/>
                 </div>
                 <div class="form-group">
-                   <input type="submit" value="Add"/>
+                   <input class="btnSubmit" type="submit" value="Add"/>
                 </div>
             </form>
         </div>
     </div>
 </div>
+{% if medicine %}
+
+  <table class="table table-hover table-bordered results table-striped text-center" style="border-color: var(--dark)">
+    <thead>
+      <tr>
+        <th>Medicine ID</th>
+        <th>Medicine</th>
+        <th>Quantity Issued</th>
+        <th>Rate of Medicine</th>
+        <th>Total Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in medicine %}
+      <tr>
+        <th scope="row">{{m.id}}</th>
+        <td></td>
+        <td>{{m.medicine_quantity}}</td>
+        <td></td>
+        <td></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
 {% endblock %}

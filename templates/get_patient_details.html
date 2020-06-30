@@ -9,12 +9,10 @@
 <div class="container login-container">
     <div>
         <div class="login-form-2 text-center">
-            <h3>Get Patient Details</h3>
-            <form name="patient" method="POST" action="{{url_for('get_patient')}}" id="form1" novalidate>
+            <h4>Get Patient Medications</h4>
+            <form name="patient" method="POST" action="{{url_for('get_patient')}}" id="form1" novalidate style="padding-top: 5px;">
                 {{form.hidden_tag()}}
-                
                 <div class="form-group">
-                    {{form.patient_id.label}}
                     {{form.patient_id(class_="form-control",placeholder="PATIENT ID")}}
                     {% for err in form.patient_id.errors %}
                     <span style="color: red;">[{{ err }}]</span>
@@ -78,11 +76,11 @@
     <tbody>
       {% for m in medicine %}
       <tr>
-        <th scope="row">{{p.id}}</th>
-        <td>{{p.name}}</td>
-        <td>{{p.age}}</td>
-        <td>{{p.address}}, {{p.city}}, {{p.state}}</td>
-        <td>{{p.admission_date}}</td>
+        <th scope="row">{{m.id}}</th>
+        <td></td>
+        <td>{{m.medicine_quantity}}</td>
+        <td></td>
+        <td></td>
       </tr>
       {% endfor %}
     </tbody>
@@ -90,7 +88,7 @@
   {% endif %}
   <div class="text-center" >
     <form class="text-center" method="POST" action="{{url_for('issue_medicine')}}">
-        <input name="pid" type="number" hidden value="{{p.id}}"/>
+        <input name="pid" type="number" hidden value="{{patient[0].id}}"/>
          <div class="form-group text-center" >
              <input type="submit" class="btnSubmit" value="💊 Issue Medicine 💉" style="color: var(--light); border-radius:2px; background-color: var(--origin); width: 200px;"/>               
          </div>
