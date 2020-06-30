@@ -262,7 +262,7 @@ def view_patient():
 
 
 # ==================================================================================
-#                       Issue Medicines
+#                                   Issue Medicines
 # ==================================================================================
 
 
@@ -293,7 +293,7 @@ def issue_medicine():
     if 'user' not in session or not session['user']:
         flash('Please Login first!', 'danger')
         return redirect(url_for('main'))
-        
+
     global pid
     pid = request.form.get('pid')
     print(pid)
@@ -302,6 +302,21 @@ def issue_medicine():
     medicine = Patient_Medicine.query.filter(Patient_Medicine.patient_id==pid)
     print(medicine)
     return render_template("issue_medicine.html", pid=pid, medicine=medicine)
+
+
+# ==================================================================================
+#                                   Patient Billing
+# ==================================================================================
+
+@app.route('/FinalBilling')
+def billing():
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+
+    return render_template('billing.html')
+
 
 # ==================================================================================
 #                                 Delete the user Session

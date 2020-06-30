@@ -2,14 +2,19 @@
   --main-color: #abd6da;
   --dark: #111;
   --origin: #2e8690;
-  --darkless: #6aa0a7;
+  --darkless: #90c7ce;
   --light: #e7fdff;
+  --grey: rgb(136, 136, 136);
 }
 
 /* Body */
 
 body {
   font-family: 'Oswald', sans-serif !important;
+}
+
+h4 {
+  color: var(--grey);
 }
 
 main {
