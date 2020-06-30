@@ -5,6 +5,33 @@ import datetime
 from wtforms.fields.html5 import DateField
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 
+
+class check_alpha(FlaskForm):
+    def __init__(self,message):
+        if not message:
+            message="input should contain alphabets only"
+        self.message=message
+    
+    def __call__(self,form,field):
+        name=str(field.data)
+        if not name.isalpha():
+            raise ValidationError('self.message')
+        
+class check_med(FlaskForm):
+    def __init__(self,message):
+        if not message:
+            self.message="medicine unavailable"
+        self.message=message
+    def __call__(self,form,field):
+        name=form.medicine_name.data
+        quant=field.data
+        if Medicine.query.filter(Medicine.medicine_name==name).first()==None:
+            raise ValidationError('MEDICINE NOT FOUND IN DATABASE')
+        medicines=Medicine.query.filter(Medicine.medicine_name==name).first()
+        for medicine in medicines:
+            if quant>medicine.medicine_quantity:
+                raise ValidationError("Medicine quantity entered is more than available. Available quantiy={}".format(medicine.medicine_quantity))
+
 #custom validator to check password while logging in
 class pass_val(FlaskForm):
     def __init__(self,message):
@@ -85,39 +112,15 @@ class Patient_update(FlaskForm):
     address = StringField('enter address', validators=[DataRequired('enter the address')])
     submit= SubmitField('update')
 
-'''
+
 #class for medicine issuing
 class issue_medicine(FlaskForm):
-    medicine_name=StringField('Medicine name',validators=[DataRequired('Please enter medicine name '), Alpha('medicine name has to be alphabet only')])
-    quantity=IntegerField('QUANTITY',validators=[DataRequired('Please enter quantity'),check_med()])
+    medicine_name=StringField('Medicine name',validators=[DataRequired('Please enter medicine name '),check_alpha('medicine name has to be alphabet only')])
+    quantity=IntegerField('QUANTITY',validators=[DataRequired('Please enter quantity'),check_med('medicine not found')])
 
-class Apha(FlaskForm):
-    def __init__(self,message):
-        if not message:
-            message="input should contain alphabets only"
-        self.message=message
-    
-    def __call__(self,form,field):
-        name=str(field.data)
-        if not name.isalpha():
-            raise ValidationError('self.message')
+
         
-class check_med(Flaskform):
-    def init(self,message):
-        if not message:
-            message="medicine unavailable"
-        medicine=self.message
-    def __call__(self,form,field):
-        name=form.medicine_name.data
-        quant=field.data
-        if Medicine.query.filter(Medicine.medicine_name==name).first()==None:
-            raise ValidationError('MEDICINE NOT FOUND IN DATABASE')
-        medicines=Medicine.query.filter(Medicine.medicine_name==name).first()
-        for medicine in medicines:
-            if quant>medicine.medicine_quantity:
-                raise ValidationError("Medicine quantity is more than available. Available quantiy={}".format(medicine.medicine_quantity))
-        
-     '''       
+
          
 
     
