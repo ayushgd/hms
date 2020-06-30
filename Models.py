@@ -41,6 +41,17 @@ class Patient_details(db.Model):
     def __repr__(self):
         return 'Patient ' + str(self.id)
 
+
+#Patient_Medicine
+class Patient_Medicine(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('medicine.id'),primary_key=True )
+    patient_id = db.Column(db.Integer, nullable=False)
+    medicine_id = db.Column(db.Integer, nullable=False)
+    medicine_quantity = db.Column(db.Integer, nullable=False)
+    #patient_details_ssn_id = db.Column(db.String(45), nullable=False)
+    def __repr__(self):
+        return 'P_medicine ' + str(self.id)
+
 #Medicie
 class Medicine(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -48,19 +59,10 @@ class Medicine(db.Model):
     medicine_amount = db.Column(db.Integer, nullable=False)
     medicine_quantity = db.Column(db.Integer, nullable=False)
     #patient_medicine_id = db.Column(db.Integer, nullable=False)
+    patient_details=db.relationship(Patient_Medicine,backref="medicine")
 
     def __repr__(self):
         return 'Medicine ' + str(self.id)
-
-#Patient_Medicine
-class Patient_Medicine(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    patient_id = db.Column(db.Integer, nullable=False)
-    medicine_id = db.Column(db.Integer, nullable=False)
-    medicine_quantity = db.Column(db.Integer, nullable=False)
-    #patient_details_ssn_id = db.Column(db.String(45), nullable=False)
-    def __repr__(self):
-        return 'P_medicine ' + str(self.id)
 
 #Diagnosis
 class Diagnosis(db.Model):

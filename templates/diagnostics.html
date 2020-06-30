@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container login-container">
+    <div>
+        <div class="login-form-2 text-center">
+            <h4>Add Diagnosis</h4>
+            <form method="POST" action="{{url_for('diagnostics')}}" style="padding: 10px 10% 0px">
+                <div class="form-group">
+                    <input class="form-control" type="text" placeholder="Test Name" name="test" required/>
+                </div>
+                <div class="form-group">
+                   <input class="btnSubmit" type="submit" value="Add"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<h4 class="text-center">Diagnostics Conducted</h4>
+{% if tests %}
+
+  <table class="table table-hover table-bordered results table-striped text-center" style="border-color: var(--dark)">
+    <thead>
+      <tr>
+        <th>Test ID</th>
+        <th>Test Name</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in tests %}
+      <tr>
+        <th scope="row">{{t.id}}</th>
+        <td>{{t.name}}</td>
+        <td>{{t.amount}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+{% endblock %}

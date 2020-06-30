@@ -69,7 +69,7 @@ def create_patient():
 
 
 # ==================================================================================
-#                                   Delete an existing patient
+#                              Delete an existing patient
 # ==================================================================================
 
 
@@ -262,7 +262,7 @@ def view_patient():
 
 
 # ==================================================================================
-#                       Issue Medicines
+#                                   Issue Medicines
 # ==================================================================================
 
 
@@ -281,14 +281,12 @@ def get_patient():
                 Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
-                    medicine=2
+                
                     flash("patient found", "success")
-                    id_m=patient_1.id
-                    if Patient_Medicine.query.filter_by(patient_id=id_m).first() != None:
-                        medicine=1
-                    if medicine==1:
-                        return 'success'
-                        return render_template("get_patient_details.html", title="Search patient", patient=patient,medicine=medicine)
+                    medicine=med_patient(patient_1)
+                    if medicine!=None:
+                    
+                        return render_template("get_patient_details.html", title="Search patient", patient=patient,medicine=medicine.all())
                     else:
                         return render_template("get_patient_details.html",title="Search patient",patient=patient)
             flash("patient not found", "danger")
@@ -301,7 +299,7 @@ def issue_medicine():
     if 'user' not in session or not session['user']:
         flash('Please Login first!', 'danger')
         return redirect(url_for('main'))
-        
+
     global pid
     pid = request.form.get('pid')
     print(pid)
@@ -311,6 +309,65 @@ def issue_medicine():
     print(medicine)
     return render_template("issue_medicine.html", pid=pid, medicine=medicine)
 
+
+# ==================================================================================
+#                                   Diagnostics
+# ==================================================================================
+
+
+@app.route("/GetPatientDetails/Diagnostics", methods=["GET", "POST"])
+def patient_diagnosis():
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+    form = Patient_delete()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            global pid
+            pid = int(form.patient_id.data)
+            patient = Patient_details.query.filter(
+                Patient_details.id == int(form.patient_id.data))
+            for patient_1 in patient:
+                if patient_1:
+                    flash("patient found", "success")
+                    return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient, pid=pid)
+            flash("patient not found", "danger")
+    return render_template("get_patient_diagnosis.html", title="Get Patient Diagnostics", form=form)
+    
+
+@app.route("/Diagnostics", methods=["GET", "POST"])
+def diagnostics():
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+    global pid
+    pid = request.form.get('pid')
+    return render_template("diagnostics.html", pid=pid, title="Conduct Diagnostics")
+
+
+# ==================================================================================
+#                                   Patient Billing
+# ==================================================================================
+
+@app.route('/FinalBilling', methods=["GET", "POST"])
+def billing():
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+    form = Patient_delete()
+    if request.method == 'POST':
+        patient = Patient_details.query.filter(Patient_details.id == int(form.patient_id.data))
+        for patient_1 in patient:
+            if patient_1:
+                flash("patient found", "success")
+            return render_template('billing.html',patient=patient)
+        flash("patient found", "success")
+    return render_template('billing.html', form=form)
+
+
 # ==================================================================================
 #                                 Delete the user Session
 # ==================================================================================
@@ -319,14 +376,16 @@ def issue_medicine():
 @app.route("/logout")
 def logout():
     # Remove user from the session
-    if session['user']:
+    if 'user' in session:
         session['user'] = None
-        return redirect(url_for('main'))
+        flash("Successfully Logged Out!")
+    return redirect(url_for('main'))
 
 
-def patient_med(patient):
-    id_m=patient.id
-    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==id_m) == None:
-        return 1
-    return 2
-    
+def med_patient(patient):
+    mid=patient.id
+    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==mid).first()==None:
+        return None
+    else:
+        x=Patient_Medicine.query.join(Medicine,Patient_Medicine.id==Medicine.id).filter(Patient_Medicine.patient_id==mid)
+        return x
