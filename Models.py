@@ -59,6 +59,8 @@ class Patient_Medicine(db.Model):
     medicine_id = db.Column(db.Integer, nullable=False)
     medicine_quantity = db.Column(db.Integer, nullable=False)
     #patient_details_ssn_id = db.Column(db.String(45), nullable=False)
+    def __repr__(self):
+        return 'P_medicine ' + str(self.id)
 
 #Diagnosis
 class Diagnosis(db.Model):
@@ -76,3 +78,4 @@ class Patient_test(db.Model):
    patient_id = db.Column(db.Integer, nullable=False)
    test_id =  db.Column(db.Integer, nullable=False)
    
+

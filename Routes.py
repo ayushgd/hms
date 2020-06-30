@@ -281,8 +281,16 @@ def get_patient():
                 Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
+                    medicine=2
                     flash("patient found", "success")
-                    return render_template("get_patient_details.html", title="Search patient", patient=patient)
+                    id_m=patient_1.id
+                    if Patient_Medicine.query.filter_by(patient_id=id_m).first() != None:
+                        medicine=1
+                    if medicine==1:
+                        return 'success'
+                        return render_template("get_patient_details.html", title="Search patient", patient=patient,medicine=medicine)
+                    else:
+                        return render_template("get_patient_details.html",title="Search patient",patient=patient)
             flash("patient not found", "danger")
     return render_template("get_patient_details.html", title="Get Patient Details", form=form)
     
@@ -314,3 +322,11 @@ def logout():
     if session['user']:
         session['user'] = None
         return redirect(url_for('main'))
+
+
+def patient_med(patient):
+    id_m=patient.id
+    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==id_m) == None:
+        return 1
+    return 2
+    
