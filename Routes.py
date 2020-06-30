@@ -325,7 +325,7 @@ def patient_diagnosis():
             for patient_1 in patient:
                 if patient_1:
                     flash("patient found", "success")
-                    return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient)
+                    return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient, pid=pid)
             flash("patient not found", "danger")
     return render_template("get_patient_diagnosis.html", title="Get Patient Diagnostics", form=form)
     

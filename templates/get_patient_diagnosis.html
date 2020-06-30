@@ -10,7 +10,7 @@
     <div>
         <div class="login-form-2 text-center">
             <h4>Get Patient Diagnosis</h4>
-            <form name="patient" method="POST" action="{{url_for('diagnostics')}}" id="form1" novalidate style="padding-top: 5px;">
+            <form name="patient" method="POST" action="{{url_for('patient_diagnosis')}}" id="form1" novalidate style="padding-top: 5px;">
                 {{form.hidden_tag()}}
                 <div class="form-group">
                     {{form.patient_id(class_="form-control",placeholder="PATIENT ID")}}
