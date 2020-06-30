@@ -89,8 +89,9 @@
   <div class="text-center" >
     <form class="text-center" method="POST" action="{{url_for('issue_medicine')}}">
         <input name="pid" type="number" hidden value="{{patient[0].id}}"/>
+        <br/>
          <div class="form-group text-center" >
-             <input type="submit" class="btnSubmit" value="💊 Issue Medicine 💉" style="color: var(--light); border-radius:2px; background-color: var(--origin); width: 200px;"/>               
+             <input type="submit" class="btnSubmit" value="💊 Issue Medicine 💉" style="color: var(--light); border-radius:2px; background-color: var(--origin); width: 200px; padding: 10px;"/>               
          </div>
      </form> 
  </div>
