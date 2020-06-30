@@ -305,6 +305,43 @@ def issue_medicine():
 
 
 # ==================================================================================
+#                                   Diagnostics
+# ==================================================================================
+
+
+@app.route("/GetPatientDetails/Diagnostics", methods=["GET", "POST"])
+def patient_diagnosis():
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+    form = Patient_delete()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            global pid
+            pid = int(form.patient_id.data)
+            patient = Patient_details.query.filter(
+                Patient_details.id == int(form.patient_id.data))
+            for patient_1 in patient:
+                if patient_1:
+                    flash("patient found", "success")
+                    return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient)
+            flash("patient not found", "danger")
+    return render_template("get_patient_diagnosis.html", title="Get Patient Diagnostics", form=form)
+    
+
+@app.route("/Diagnostics", methods=["GET", "POST"])
+def diagnostics():
+    # Check if user is already logged in or not
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+    global pid
+    pid = request.form.get('pid')
+    return render_template("diagnostics.html", pid=pid, title="Conduct Diagnostics")
+
+
+# ==================================================================================
 #                                   Patient Billing
 # ==================================================================================
 
