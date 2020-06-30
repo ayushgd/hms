@@ -69,7 +69,7 @@ def create_patient():
 
 
 # ==================================================================================
-#                                   Delete an existing patient
+#                              Delete an existing patient
 # ==================================================================================
 
 
@@ -308,14 +308,20 @@ def issue_medicine():
 #                                   Patient Billing
 # ==================================================================================
 
-@app.route('/FinalBilling')
+@app.route('/FinalBilling', methods=["GET", "POST"])
 def billing():
     # Check if user is already logged in or not
     if 'user' not in session or not session['user']:
         flash('Please Login first!', 'danger')
         return redirect(url_for('main'))
-
-    return render_template('billing.html')
+    form = Patient_delete()
+    if request.method == 'POST':
+        patient = Patient_details.query.filter(Patient_details.id == int(form.patient_id.data))
+        for patient_1 in patient:
+            if patient_1:
+                flash("patient found", "success")
+            return render_template('billing.html',patient=patient)
+    return render_template('billing.html', form=form)
 
 
 # ==================================================================================
