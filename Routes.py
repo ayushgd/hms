@@ -287,6 +287,12 @@ def get_patient():
     return render_template("get_patient_details.html", title="Get Patient Details", form=form)
     
 
+@app.route("/IssueMedicine", methods=["GET", "POST"])
+def issue_medicine():
+    global pid = request.form.pid
+    if Patient_Medicine.query.filter_by(patient_id=pid).first() == None:
+
+    return render_template("issue_medicine.html")
 
 # ==================================================================================
 #                                 Delete the user Session

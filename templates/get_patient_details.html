@@ -88,6 +88,14 @@
     </tbody>
   </table>
   {% endif %}
+  <div class="text-center" >
+    <form class="text-center" method="POST" action="{{url_for('issue_medicine')}}">
+        <input name="pid" type="number" hidden value="{{p.id}}"/>
+         <div class="form-group text-center" >
+             <input type="submit" class="btnSubmit" value="💊 Issue Medicine 💉" style="color: var(--light); border-radius:2px; background-color: var(--origin); width: 200px;"/>               
+         </div>
+     </form> 
+ </div>
 {% endif %}
 {% endblock %}
 
