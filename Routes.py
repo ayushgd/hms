@@ -333,6 +333,7 @@ def billing():
 @app.route("/logout")
 def logout():
     # Remove user from the session
-    if session['user']:
+    if 'user' in session:
         session['user'] = None
-        return redirect(url_for('main'))
+        flash("Successfully Logged Out!")
+    return redirect(url_for('main'))
