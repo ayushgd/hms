@@ -1,13 +1,14 @@
 from hms import app
 from datetime import datetime
 from flask import render_template, session, url_for, request, redirect, flash, session, g
-from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update
+from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update,issue_medicine_form
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 from .Config import db
 
 # store patient ID for querying
 pid = 0
-
+issue_med=None
+quantity=[]
 # ==================================================================================
 #                                   Home and Login
 # ==================================================================================
@@ -276,6 +277,7 @@ def get_patient():
     if request.method == 'POST':
         if form.validate_on_submit():
             global pid
+            global issue_med
             pid = int(form.patient_id.data)
             patient = Patient_details.query.filter(
                 Patient_details.id == int(form.patient_id.data))
@@ -283,6 +285,7 @@ def get_patient():
                 if patient_1:
                 
                     flash("patient found", "success")
+                    issue_med=None
                     medicine=med_patient(patient_1)
                     if medicine!=None:
                     
@@ -299,15 +302,24 @@ def issue_medicine():
     if 'user' not in session or not session['user']:
         flash('Please Login first!', 'danger')
         return redirect(url_for('main'))
-
+    global issue_med
     global pid
-    pid = request.form.get('pid')
-    print(pid)
-    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==pid)== None:
-        print("check null")
-    medicine = Patient_Medicine.query.filter(Patient_Medicine.patient_id==pid)
-    print(medicine)
-    return render_template("issue_medicine.html", pid=pid, medicine=medicine)
+    form=issue_medicine_form()
+    if form.validate_on_submit():
+        name=form.medicine_name.data
+        quantity=form.quantity.data
+        med=Medicine.query.filter(Medicine.medicine_name==form.medicine_name.data).first()
+        medid=med.id
+        rate=med.medicine_amount
+        if issue_med==None:
+            issue_med={}
+            issue_med[name]={'name' : name,'quantity' : quantity,'medid' : medid,'rate' : rate}
+        else:
+            issue_med[name]={'name' : name,'quantity' : quantity,'medid' : medid,'rate' : rate}
+        flash("medicine added","success")
+        return render_template("issue_medicine.html",form=form,medicine=issue_med)
+    
+    return render_template("issue_medicine.html",form=form,medicine=issue_med)
 
 
 # ==================================================================================
@@ -382,6 +394,47 @@ def logout():
     return redirect(url_for('main'))
 
 
+@app.route("/medicine_update",methods=["GET","POST"])
+def update():
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+    global issue_med
+    global pid
+    for i in issue_med:
+        med_name=str(issue_med[i]['name'])
+        med_id=int(issue_med[i]['medid'])
+        med_quant=int(issue_med[i]['quantity'])
+        medicine=Medicine.query.filter(Medicine.medicine_name==med_name).first()
+        current_quant=medicine.medicine_quantity
+        new_quant=current_quant-med_quant
+        patient=Patient_Medicine.query.filter(Patient_Medicine.patient_id==pid,Patient_Medicine.medicine_id==med_id).first()
+        if patient==None:
+            db.session.add(Patient_Medicine(patient_id=pid,medicine_quantity=med_quant,medicine_id=med_id))
+            medicine.medicine_quantiy=new_quant
+            db.session.commit()
+    
+            
+            
+
+
+
+        else:
+            medicine.medicine_quantity=new_quant
+            patient.medicine_quantity+=med_quant
+            db.session.commit()
+    issue_med=None
+    flash("successfully updated","success")
+    return redirect(url_for('get_patient'))
+
+
+            
+
+
+
+
+
+#function to retrieve patient medicines
 def med_patient(patient):
     mid=patient.id
     if Patient_Medicine.query.filter(Patient_Medicine.patient_id==mid).first()==None:

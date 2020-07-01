@@ -80,4 +80,3 @@ class Patient_test(db.Model):
    patient_id = db.Column(db.Integer, nullable=False)
    test_id =  db.Column(db.Integer, nullable=False)
    
-

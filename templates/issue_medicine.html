@@ -5,22 +5,31 @@
     <div>
         <div class="login-form-2 text-center">
             <h4>Issue Medicine</h4>
-            <form method="POST" action="{{url_for('issue_medicine')}}" style="padding: 10px 10% 0px">
+            <form method="POST" action={{url_for('issue_medicine')}} style="padding: 10px 10% 0px" novalidate>
+              {{form.hidden_tag()}}
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Medicine Name" name="medicine" required/>
+                    {{form.medicine_name(class_="form-control",placeholder="Medicine name")}}
+                    {% for err in form.medicine_name.errors %}
+                    <span style="color: red;">{{err}}</span>
+
+
+                    {% endfor %}
+                
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="number" placeholder="Quantity" name="quantity" required/>
+                    {{form.quantity(class_="form-control",placeholder="Quantity")}}
+                    {% for err in form.quantity.errors %}
+                    <span style="color: red;">{{err}}</span>
+                    {% endfor %}
                 </div>
                 <div class="form-group">
-                   <input class="btnSubmit" type="submit" value="Add"/>
+                   {{form.submit(class_="btnSubmit")}}
                 </div>
             </form>
         </div>
     </div>
 </div>
 {% if medicine %}
-
   <table class="table table-hover table-bordered results table-striped text-center" style="border-color: var(--dark)">
     <thead>
       <tr>
@@ -34,14 +43,21 @@
     <tbody>
       {% for m in medicine %}
       <tr>
-        <th scope="row">{{m.id}}</th>
-        <td></td>
-        <td>{{m.medicine_quantity}}</td>
-        <td></td>
-        <td></td>
+        <th scope="row">{{medicine[m]['medid']}}</th>
+        <td>{{medicine[m]['name']}}</td>
+        <td>{{medicine[m]['quantity']}}</td>
+        <td>{{medicine[m]['rate']}}</td>
+        <td>{{medicine[m]['rate']*medicine[m]['quantity']}}</td>
       </tr>
+  
       {% endfor %}
     </tbody>
   </table>
+  <form method="POST" action={{url_for('update')}} style="padding: 10px 10% 0px">
+  <div class="form-group">
+    <input type="submit" class="btnSubmit" value="update">
+                     
+</div>
+</form>
   {% endif %}
 {% endblock %}

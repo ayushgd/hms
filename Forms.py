@@ -15,7 +15,10 @@ class check_alpha(FlaskForm):
     def __call__(self,form,field):
         name=str(field.data)
         if not name.isalpha():
-            raise ValidationError('self.message')
+            raise ValidationError(self.message
+        
+        
+        )
         
 class check_med(FlaskForm):
     def __init__(self,message):
@@ -27,7 +30,7 @@ class check_med(FlaskForm):
         quant=field.data
         if Medicine.query.filter(Medicine.medicine_name==name).first()==None:
             raise ValidationError('MEDICINE NOT FOUND IN DATABASE')
-        medicines=Medicine.query.filter(Medicine.medicine_name==name).first()
+        medicines=Medicine.query.filter(Medicine.medicine_name==name)
         for medicine in medicines:
             if quant>medicine.medicine_quantity:
                 raise ValidationError("Medicine quantity entered is more than available. Available quantiy={}".format(medicine.medicine_quantity))
@@ -114,9 +117,10 @@ class Patient_update(FlaskForm):
 
 
 #class for medicine issuing
-class issue_medicine(FlaskForm):
+class issue_medicine_form(FlaskForm):
     medicine_name=StringField('Medicine name',validators=[DataRequired('Please enter medicine name '),check_alpha('medicine name has to be alphabet only')])
     quantity=IntegerField('QUANTITY',validators=[DataRequired('Please enter quantity'),check_med('medicine not found')])
+    submit=SubmitField('Add')
 
 
         
