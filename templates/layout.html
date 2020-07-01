@@ -51,6 +51,7 @@
                 <a class="nav-link {% if home %} active {% endif %}" href="/">Home</a>
               </li>
               {% if session['user'] %}
+              {% if session['stakeholder'] == 'registration_desk_executive'%}
               <li class="nav-item dropdown">
                 <a
                   class="dropdown-toggle nav-link"
@@ -93,7 +94,8 @@
                   >
                 </div>
               </li>
-              
+              {% endif %}
+              {% if session['stakeholder'] == 'registration_desk_executive' or session['stakeholder'] == 'pharmacy_executive' %}
               <li class="nav-item dropdown">
                 <a
                   class="dropdown-toggle nav-link"
@@ -110,7 +112,8 @@
                   >
                 </div>
               </li>
-
+              {% endif %}
+              {% if session['stakeholder'] == 'registration_desk_executive' or session['stakeholder'] == 'diagnostic_executive' %}
               <li class="nav-item dropdown">
                 <a
                   class="dropdown-toggle nav-link"
@@ -128,6 +131,7 @@
                   >
                 </div>
               </li>
+              {% endif %}
               {% endif %}
               <li class="nav-item" style="background-color: var(--origin); color: var(--light); border-radius: 5px;">
                 {% if session.get('user') %}

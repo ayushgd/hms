@@ -8,6 +8,22 @@ from .Config import db
 # store patient ID for querying
 pid = 0
 
+#Function to implement session management and check the category of stakeholder accessing the website
+def check_session():
+    if 'user' not in session or not session['user']:
+        return None
+    else:
+        stakeholder_type = session['user'][-1]
+        if stakeholder_type == 'A':
+            session['stakeholder'] = 'registration_desk_executive'
+            return 'registration_desk_executive'
+        elif stakeholder_type == 'D':
+            session['stakeholder'] = 'diagnostic_executive'
+            return 'diagnostic_executive'
+        elif stakeholder_type == 'P':
+            session['stakeholder'] = 'pharmacy_executive'
+            return 'pharmacy_executive'
+
 # ==================================================================================
 #                                   Home and Login
 # ==================================================================================
@@ -16,7 +32,7 @@ pid = 0
 @app.route("/", methods=["GET", "POST"])
 @app.route("/login", methods=["GET", "POST"])
 def main():
-    if session.get('user'):
+    if check_session():
         return render_template('index.html', user=session['user'])
     form = Login_form()
     if request.method == 'POST':
@@ -44,10 +60,12 @@ def index():
 
 @app.route("/CreatePatient", methods=['GET', 'POST'])
 def create_patient():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
-        return redirect('login')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
+
     # If form has been submitted
     form = Patient_create()
     if request.method == 'POST':
@@ -75,10 +93,12 @@ def create_patient():
 
 @app.route("/DeletePatient", methods=["GET", "POST"])
 def delete_patient():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
-        return redirect('login')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
+
     form = Patient_delete()
     if form.validate_on_submit():
         global pid
@@ -96,10 +116,12 @@ def delete_patient():
 
 @app.route("/deletepatient2", methods=["GET", "POST"])
 def delete_patient2():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
-        return redirect('login')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
+
     form2 = delete_result()
     if form2.validate_on_submit():
         global pid
@@ -122,10 +144,12 @@ def delete_patient2():
 
 @app.route("/SearchPatient", methods=["GET", "POST"])
 def search_patient():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
-        return redirect('login')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
+
     form = Patient_delete()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -149,10 +173,12 @@ def search_patient():
 @app.route("/UpdatePatient", methods=["GET", "POST"])
 def update_patient():
     flag = 0
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
-        return redirect('login')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
+
     form = Patient_delete()
     if form.validate_on_submit():
         global pid
@@ -172,10 +198,12 @@ def update_patient():
 
 @app.route("/UpdatePatient2", methods=["GET", "POST"])
 def update_result():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
-        return redirect('login')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
+
     form = Patient_update()
     if request.method == "POST":
         if form.validate_on_submit():
@@ -253,10 +281,12 @@ def update_result():
 
 @app.route("/ViewAllPatients")
 def view_patient():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
-        return redirect('login')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
+
     patient = Patient_details.query.filter_by(status="Admitted")
     return render_template("view_patients.html", patients=patient)
 
@@ -268,10 +298,12 @@ def view_patient():
 
 @app.route("/GetPatientDetails/Medicine", methods=["GET", "POST"])
 def get_patient():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive' and check_session()!= 'pharmacy_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
+
     form = Patient_delete()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -295,9 +327,9 @@ def get_patient():
 
 @app.route("/IssueMedicine", methods=["GET", "POST"])
 def issue_medicine():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive' and check_session()!= 'pharmacy_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
     global pid
@@ -317,10 +349,12 @@ def issue_medicine():
 
 @app.route("/GetPatientDetails/Diagnostics", methods=["GET", "POST"])
 def patient_diagnosis():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive' and check_session()!= 'diagnostic_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
+
     form = Patient_delete()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -338,10 +372,12 @@ def patient_diagnosis():
 
 @app.route("/Diagnostics", methods=["GET", "POST"])
 def diagnostics():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive' and check_session()!= 'diagnostic_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
+
     global pid
     pid = request.form.get('pid')
     return render_template("diagnostics.html", pid=pid, title="Conduct Diagnostics")
@@ -353,10 +389,12 @@ def diagnostics():
 
 @app.route('/FinalBilling', methods=["GET", "POST"])
 def billing():
-    # Check if user is already logged in or not
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
+
+    # Check that an authorised user only can access this functionality
+    if check_session()!='registration_desk_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
+
     form = Patient_delete()
     if request.method == 'POST':
         patient = Patient_details.query.filter(Patient_details.id == int(form.patient_id.data))
