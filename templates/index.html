@@ -4,4 +4,18 @@
 <div class="text-center" style="margin: 3em auto;">
     <h1>Welcome , {{ user }} !</h1>
 </div>
+<div style="margin-left: 50px ;">
+    <h2> As a {{ session['stakeholder'] }} , you have access to the following functionalities:</h2>
+    <ul>
+        {% if session['stakeholder'] == 'registration_desk_executive' %}
+        <li>Creation, updation, deletion, viewing, searching and billing of patients</li>
+        {% endif %}
+        {% if session['stakeholder'] == 'registration_desk_executive' or session['stakeholder'] == 'pharmacy_executive'%}
+        <li>Viewing history of medicines given to the patient and prescribing new medicines based on availability</li>
+        {% endif %}
+        {% if session['stakeholder'] == 'registration_desk_executive' or session['stakeholder'] == 'diagnostic_executive'%}
+        <li>Viewing history of diagnostics carried on the patient and adding new tests</li>
+        {% endif %}
+    </ul>
+</div>
 {% endblock %}
