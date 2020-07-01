@@ -5,7 +5,7 @@
     <div>
         <div class="login-form-2 text-center">
             <h4>Issue Medicine</h4>
-            <form method="POST" action={{url_for('issue_medicine')}} style="padding: 10px 10% 0px" novalidate>
+            <form method="POST" action="{{url_for('issue_medicine')}}" style="padding: 10px 10% 0px" novalidate>
               {{form.hidden_tag()}}
                 <div class="form-group">
                     {{form.medicine_name(class_="form-control",placeholder="Medicine name")}}
@@ -53,11 +53,10 @@
       {% endfor %}
     </tbody>
   </table>
-  <form method="POST" action={{url_for('update')}} style="padding: 10px 10% 0px">
-  <div class="form-group">
-    <input type="submit" class="btnSubmit" value="update">
-                     
-</div>
+  <form method="POST" action="{{url_for('update')}}" style="padding: 10px 10% 0px">
+  <div class="form-group text-center">
+    <input type="submit" class="btnSubmit" value="Update" style="color: var(--light); border-radius:2px; background-color: var(--origin); width: 200px; padding: 10px;"/>                   
+  </div>
 </form>
   {% endif %}
 {% endblock %}

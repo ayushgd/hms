@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Email, Length, ValidationError
 import datetime
-from wtforms.fields.html5 import DateField
+from wtforms.fields.html5 import DateField, widgets
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 
 
@@ -15,15 +15,12 @@ class check_alpha(FlaskForm):
     def __call__(self,form,field):
         name=str(field.data)
         if not name.isalpha():
-            raise ValidationError(self.message
-        
-        
-        )
+            raise ValidationError(self.message)
         
 class check_med(FlaskForm):
     def __init__(self,message):
         if not message:
-            self.message="medicine unavailable"
+            self.message="Medicine Unavailable"
         self.message=message
     def __call__(self,form,field):
         name=form.medicine_name.data
@@ -61,7 +58,7 @@ class pass_val(FlaskForm):
         if nflag==0 or cflag==0 or upflag==0:
             raise ValidationError(self.message)
         if len(x)!=10:
-            raise ValidationError("Password length must be 10 charachters long")
+            raise ValidationError("Password must be 10 characters long")
 
 
     
@@ -119,7 +116,7 @@ class Patient_update(FlaskForm):
 #class for medicine issuing
 class issue_medicine_form(FlaskForm):
     medicine_name=StringField('Medicine name',validators=[DataRequired('Please enter medicine name '),check_alpha('medicine name has to be alphabet only')])
-    quantity=IntegerField('QUANTITY',validators=[DataRequired('Please enter quantity'),check_med('medicine not found')])
+    quantity=IntegerField('QUANTITY', widget = widgets.Input(input_type="number"), validators=[DataRequired('Please enter quantity'),check_med('medicine not found')])
     submit=SubmitField('Add')
 
 
