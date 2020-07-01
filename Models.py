@@ -44,9 +44,9 @@ class Patient_details(db.Model):
 
 #Patient_Medicine
 class Patient_Medicine(db.Model):
-    id = db.Column(db.Integer, db.ForeignKey('medicine.id'),primary_key=True )
+    id = db.Column(db.Integer,primary_key=True )
     patient_id = db.Column(db.Integer, nullable=False)
-    medicine_id = db.Column(db.Integer, nullable=False)
+    medicine_id = db.Column(db.Integer, db.ForeignKey('medicine.id'),nullable=False)
     medicine_quantity = db.Column(db.Integer, nullable=False)
     #patient_details_ssn_id = db.Column(db.String(45), nullable=False)
     def __repr__(self):

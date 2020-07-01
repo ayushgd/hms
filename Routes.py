@@ -387,5 +387,5 @@ def med_patient(patient):
     if Patient_Medicine.query.filter(Patient_Medicine.patient_id==mid).first()==None:
         return None
     else:
-        x=Patient_Medicine.query.join(Medicine,Patient_Medicine.id==Medicine.id).filter(Patient_Medicine.patient_id==mid)
+        x=Patient_Medicine.query.join(Medicine,Patient_Medicine.medicine_id==Medicine.id).filter(Patient_Medicine.patient_id==mid)
         return x
