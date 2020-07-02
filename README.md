@@ -122,7 +122,7 @@ Project Link: [https://github.com/ayushgd/hms](https://github.com/ayushgd/repo_n
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-*Thanks to.....
+*Thanks to.....*
 * [Bootstrap-Select](https://developer.snapappointments.com/bootstrap-select/)
 * [State-City JS](https://github.com/ajayrandhawa/Indian-States-Cities-Database)
 * [Choose an Open Source License](https://choosealicense.com)
