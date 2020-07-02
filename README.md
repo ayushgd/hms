@@ -5,12 +5,12 @@
     <img src="static/img/logo.svg" alt="Logo" width="180" height="180">
   </a>
 
-  <h3 align="center">Hospital Management System</h3>
+  <h2 align="center">Hospital Management System</h2>
   <h5 align="center"><em>(Using Flask)</em></h5>
 
   <p align="center">
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/ayushgd/hms/docs/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="http://hms-tcs.el.r.appspot.com" target="_blank">View Demo</a>
