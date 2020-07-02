@@ -1,28 +1,36 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<style>
+  li {
+    text-align: center;
+    margin: 0 auto;
+  }
+</style>
+{% endblock %}
+
+
 {% block content %}
 <div class="container login-container">
     <div>
         <div class="login-form-2 text-center">
             <h4>Issue Medicine</h4>
-            <form method="POST" action="{{url_for('issue_medicine')}}" style="padding: 10px 10% 0px" novalidate>
+            <form name='form1' method="POST" action="{{url_for('issue_medicine')}}" style="padding: 10px 10% 0px" novalidate>
               {{form.hidden_tag()}}
-                <div class="form-group">
-                    {{form.medicine_name(class_="form-control",placeholder="Medicine name")}}
-                    {% for err in form.medicine_name.errors %}
-                    <span style="color: red;">{{err}}</span>
-
-
-                    {% endfor %}
-                
-                </div>
-                <div class="form-group">
+              <div class="form-group" style="width: 300px; margin: auto;">
+                {{form.medicine_name(class_="form-control selectpicker",placeholder="Medicine name")}}
+                {% for err in form.medicine_name.errors %}
+                <span style="color: red;">{{err}}</span>
+                {% endfor %}
+            </div>       
+                <div class="form-group" style="width: 300px; margin: auto;">
                     {{form.quantity(class_="form-control",placeholder="Quantity")}}
                     {% for err in form.quantity.errors %}
                     <span style="color: red;">{{err}}</span>
                     {% endfor %}
                 </div>
                 <div class="form-group">
+                  <br>
                    {{form.submit(class_="btnSubmit")}}
                 </div>
             </form>
@@ -59,4 +67,16 @@
   </div>
 </form>
   {% endif %}
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(function(){
+    $('.selectpicker').selectpicker({
+    liveSearch: true
+ });
+ $.fn.selectpicker.Constructor.BootstrapVersion = '4';
+
+  });
+</script>
 {% endblock %}

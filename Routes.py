@@ -343,6 +343,10 @@ def issue_medicine():
     global issue_med
     global pid
     form = issue_medicine_form()
+    form.medicine_name.choices = []
+    medicine = Medicine.query.all()
+    for med in medicine:
+        form.medicine_name.choices += [(med.medicine_name, med.medicine_name + ' || Qty: ' + str(med.medicine_quantity))]
     if form.validate_on_submit():
         name = form.medicine_name.data
         quantity = form.quantity.data
