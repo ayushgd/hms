@@ -14,10 +14,10 @@ def check_session():
         return None
     else:
         stakeholder_type = session['user'][-1]
-        if stakeholder_type == 'D':
+        if stakeholder_type == 'A':
             session['stakeholder'] = 'registration_desk_executive'
             return 'registration_desk_executive'
-        elif stakeholder_type == 'A':
+        elif stakeholder_type == 'D':
             session['stakeholder'] = 'diagnostic_executive'
             return 'diagnostic_executive'
         elif stakeholder_type == 'P':
