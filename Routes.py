@@ -344,7 +344,13 @@ def issue_medicine():
     print(medicine)
     return render_template("issue_medicine.html", pid=pid, medicine=medicine)
 
-
+def med_patient(patient):
+    mid=patient.id
+    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==mid).first()==None:
+        return None
+    else:
+        x=Patient_Medicine.query.join(Medicine,Patient_Medicine.medicine_id==Medicine.id).filter(Patient_Medicine.patient_id==mid)
+        return x
 # ==================================================================================
 #                                   Diagnostics
 # ==================================================================================
@@ -419,14 +425,7 @@ def logout():
     # Remove user from the session
     if 'user' in session:
         session['user'] = None
-        flash("Successfully Logged Out!")
+        flash("Successfully Logged Out!", "success")
     return redirect(url_for('main'))
 
 
-def med_patient(patient):
-    mid=patient.id
-    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==mid).first()==None:
-        return None
-    else:
-        x=Patient_Medicine.query.join(Medicine,Patient_Medicine.medicine_id==Medicine.id).filter(Patient_Medicine.patient_id==mid)
-        return x
