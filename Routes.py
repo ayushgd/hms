@@ -506,15 +506,18 @@ def billing():
     if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
-
+    mbill=0
+    tbill=0
     form = Patient_delete()
     if request.method == 'POST':
+        mbill=0
+        tbill=0
         if form.validate_on_submit():
 
             patient = Patient_details.query.filter(Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
-                    flash("patient found", "success")
+                    flash("Patient found", "success")
                     mbill=0
                     tbill=0
                     medicine=med_patient(patient_1)
@@ -524,8 +527,8 @@ def billing():
                     for t in test:
                         tbill=tbill+t.diagnosis.test_amount
                     return render_template('billing.html', patient=patient,medicine=medicine,tests=test,mbill=mbill,tbill=tbill)
-            flash("patient not found", "danger")
-    return render_template('billing.html', form=form)
+            flash("Patient not found", "danger")
+    return render_template('billing.html', form=form,tbill=tbill,mbill=mbill)
 
 
 # ==================================================================================
