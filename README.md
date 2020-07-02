@@ -6,7 +6,7 @@
   </a>
 
   <h3 align="center">Hospital Management System</h3>
-  <h5>(Using Flask)</h5>
+  <h5 align="center"><em>(Using Flask)</em></h5>
 
   <p align="center">
     <br />
