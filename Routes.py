@@ -532,10 +532,15 @@ def billing():
                     for t in test:
                         tbill=tbill+t.diagnosis.test_amount
                     days = date.today() - patient[0].admission_date
-                    #if patient[0].bed_type == ''
-                    return render_template('billing.html', patient=patient,medicine=medicine,tests=test,mbill=mbill,tbill=tbill,days=days)
+                    if patient[0].bed_type.lower() == 'general ward':
+                        charges = 2000
+                    elif patient[0].bed_type.lower() == 'semi sharing':
+                        charges = 4000
+                    elif patient[0].bed_type.lower() == 'single room':
+                        charges = 8000
+                    return render_template('billing.html', patient=patient,medicine=medicine,tests=test,mbill=mbill,tbill=tbill,days=days,charges=charges,total=str(days*charges).replace("days, 0:00:00",""))
             flash("Patient not found", "danger")
-    return render_template('billing.html', form=form,tbill=tbill,mbill=mbill)
+    return render_template('billing.html', form=form,tbill=tbill,mbill=mbill,total=0)
 
 
 # ==================================================================================

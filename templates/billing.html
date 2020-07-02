@@ -58,10 +58,10 @@
       {% endif %}
       <tr style="background-color: var(--darkless);">
         <td colspan="3">
-          📅No. of days: {{ days }}
+          📅No. of days: {{ days|string | replace("days, 0:00:00","")  }}
         </td>
         <td colspan="3">
-          🏥Room Charges: {{ charges }}
+          🏥Room Charges: {% if charges %}₹{{ (charges * days)|string | replace("days, 0:00:00","") }} {% endif %}
         </td>
       </tr>
       
@@ -94,7 +94,7 @@
     {% endif %}
     <tr style="background-color: var(--darkless);">
       <td colspan="5">
-        💊 Bill for Medicines:  INR.{{mbill}}
+        💊 Bill for Medicines:  ₹{{mbill}}
       </td>
     </tr>
     </tbody>
@@ -105,7 +105,7 @@
     <thead>
       <tr>
         <th>Test ID</th>
-        <th>Test Namee</th>
+        <th>Test Name</th>
         <th>Test Charges</th>
       </tr>
     </thead>
@@ -121,13 +121,13 @@
     {% endif %}
     <tr style="background-color: var(--darkless);">
       <td colspan="3">
-        🩺 Bill for Diagnostics: INR.{{tbill}}
+        🩺 Bill for Diagnostics: ₹{{tbill}}
       </td>
     </tr>
     </tbody>
   </table>
 
-<h2 class="text-center" style="color: var(--origin); font-weight: bold; width: 350px; border: 2px dashed var(--origin); margin: auto;">Grand Total: ₹{{tbill+mbill}}</h2>
+<h2 class="text-center" style="color: var(--origin); font-weight: bold; width: 350px; border: 2px dashed var(--origin); margin: auto;">Grand Total: ₹{{ tbill + mbill + total|int }}</h2>
   <div class="text-center" >
     <form class="text-center" method="POST" action="{{url_for('billing')}}">
         <input name="pid" type="number" hidden value=""/>
