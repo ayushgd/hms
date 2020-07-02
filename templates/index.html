@@ -3,7 +3,9 @@
 {% block head %}
 <style>
     ol li {
-        font-weight: 300 !important;
+        font-weight: 200 !important;
+        font-size: 1.5rem;
+        color: var(--light);
     }
 </style>
 {% endblock %}
@@ -12,18 +14,18 @@
 <div class="text-center" style="margin: 3em auto;">
     <h1>Welcome , {{ user }} !</h1>
 </div>
-<div class="text-center card bg-dark text-white" style="width: 100vw; max-width: 800px; margin: 0 auto; border:4px solid var(--origin); border-radius: 20px; padding-top: 1em;">
-    <h4> As a <span style="color: var(--origin);">{{ session['stakeholder'] }}</span>, you have access to the following functionalities:</h4>
-    <hr style="background-color: var(--light);"/>
+<div class="text-center card bg-dark" style="width: 100vw; max-width: 800px; margin: 0 auto; border:8px solid var(--origin); border-radius: 20px; padding-top: 1em;">
+    <h4> As a <span style="color: var(--darkless);">{{ session['stakeholder'] }}</span>, you have access to the following functionalities:</h4>
+    <hr style="background-color: var(--origin); height: 1.5rem;"/>
     <ol style="list-style-position: inside;">
         {% if session['stakeholder'] == 'registration_desk_executive' %}
         <li>Creation, updation, deletion, viewing, searching and billing of patients</li>
         {% endif %}
         {% if session['stakeholder'] == 'registration_desk_executive' or session['stakeholder'] == 'pharmacy_executive'%}
-        <li>Viewing history of medicines given to the patient and prescribing new medicines based on availability</li>
+        <li>Viewing history of medicines given to the patient and prescribing new medicines</li>
         {% endif %}
         {% if session['stakeholder'] == 'registration_desk_executive' or session['stakeholder'] == 'diagnostic_executive'%}
-        <li>Viewing history of diagnostics carried on the patient and adding new tests</li>
+        <li>Viewing history of diagnostics conducted on the patients and adding new diagnostics</li>
         {% endif %}
     </ol>
 </div>
