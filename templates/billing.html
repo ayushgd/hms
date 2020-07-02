@@ -83,17 +83,17 @@
     {% if medicine %}
       {% for m in medicine %}
       <tr>
-        <th scope="row">{{m.id}}</th>
-        <td></td>
+        <th scope="row">{{m.medicine_id}}</th>
+        <td>{{m.medicine.medicine_name}}</td>
         <td>{{m.medicine_quantity}}</td>
-        <td></td>
-        <td></td>
+        <td>{{m.medicine.medicine_amount}}</td>
+        <td>{{m.medicine.medicine_amount*m.medicine_quantity}}</td>
       </tr>
       {% endfor %}
     {% endif %}
     <tr style="background-color: var(--darkless);">
       <td colspan="5">
-        💊 Bill for Medicines:
+        💊 Bill for Medicines:  INR.{{mbill}}
       </td>
     </tr>
     </tbody>
@@ -113,20 +113,20 @@
       {% for t in tests %}
       <tr>
         <th scope="row">{{t.id}}</th>
-        <td>{{t.test_name}}</td>
-        <td>{{t.test_amount}}</td>
+        <td>{{t.diagnosis.test_name}}</td>
+        <td>{{t.diagnosis.test_amount}}</td>
       </tr>
       {% endfor %}
     {% endif %}
     <tr style="background-color: var(--darkless);">
       <td colspan="3">
-        🩺 Bill for Diagnostics:
+        🩺 Bill for Diagnostics: INR.{{tbill}}
       </td>
     </tr>
     </tbody>
   </table>
 
-<h2 class="text-center" style="color: var(--origin); font-weight: bold; width: 350px; border: 2px dashed var(--origin); margin: auto;">Grand Total: ₹</h2>
+<h2 class="text-center" style="color: var(--origin); font-weight: bold; width: 350px; border: 2px dashed var(--origin); margin: auto;">Grand Total: ₹{{tbill+mbill}}</h2>
   <div class="text-center" >
     <form class="text-center" method="POST" action="{{url_for('billing')}}">
         <input name="pid" type="number" hidden value=""/>

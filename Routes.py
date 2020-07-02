@@ -509,13 +509,22 @@ def billing():
 
     form = Patient_delete()
     if request.method == 'POST':
-        patient = Patient_details.query.filter(
-            Patient_details.id == int(form.patient_id.data))
-        for patient_1 in patient:
-            if patient_1:
-                flash("patient found", "success")
-            return render_template('billing.html', patient=patient)
-        flash("patient found", "success")
+        if form.validate_on_submit():
+
+            patient = Patient_details.query.filter(Patient_details.id == int(form.patient_id.data))
+            for patient_1 in patient:
+                if patient_1:
+                    flash("patient found", "success")
+                    mbill=0
+                    tbill=0
+                    medicine=med_patient(patient_1)
+                    for m in medicine:
+                        mbill=mbill+(m.medicine.medicine_amount*m.medicine_quantity)
+                    test=Patient_test.query.join(Diagnosis,Patient_test.test_id==Diagnosis.id).filter(Patient_test.patient_id==patient_1.id)
+                    for t in test:
+                        tbill=tbill+t.diagnosis.test_amount
+                    return render_template('billing.html', patient=patient,medicine=medicine,tests=test,mbill=mbill,tbill=tbill)
+            flash("patient not found", "danger")
     return render_template('billing.html', form=form)
 
 
