@@ -1,5 +1,5 @@
 from hms import app
-from datetime import datetime
+from datetime import datetime, date
 from flask import render_template, session, url_for, request, redirect, flash, session, g
 from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update, issue_medicine_form,add_diagnosis
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
@@ -10,6 +10,11 @@ pid = 0
 issue_med = None
 quantity = []
 add_test=None
+
+@app.context_processor
+def inject_now():
+    return {'now': date.today()}
+
 
 # Function to implement session management and check the category of stakeholder accessing the website
 
@@ -526,7 +531,9 @@ def billing():
                     test=Patient_test.query.join(Diagnosis,Patient_test.test_id==Diagnosis.id).filter(Patient_test.patient_id==patient_1.id)
                     for t in test:
                         tbill=tbill+t.diagnosis.test_amount
-                    return render_template('billing.html', patient=patient,medicine=medicine,tests=test,mbill=mbill,tbill=tbill)
+                    days = date.today() - patient[0].admission_date
+                    #if patient[0].bed_type == ''
+                    return render_template('billing.html', patient=patient,medicine=medicine,tests=test,mbill=mbill,tbill=tbill,days=days)
             flash("Patient not found", "danger")
     return render_template('billing.html', form=form,tbill=tbill,mbill=mbill)
 
