@@ -65,7 +65,7 @@ class pass_val(FlaskForm):
 # class for login page form
 class Login_form(FlaskForm):
     username = StringField('username', validators=[DataRequired(),Length(min=8,message="ID should be atleast 8 characters long")])
-    password = PasswordField('password', validators=[DataRequired(),Length(min=10,max=10,message=""),pass_val(message="password should have atleast 1 numeric and 1 special character and 1 uppercase and should be 10 charachters long")])
+    password = PasswordField('password', validators=[DataRequired(),Length(min=10,max=10,message=""),pass_val(message="password should have atleast 1 numeric and 1 special character and 1 uppercase and should be 10 characters long")])
     submit = SubmitField('login')
 
 
