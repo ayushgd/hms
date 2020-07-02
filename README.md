@@ -110,17 +110,19 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-RamVignesh B. - [LinkedIn](https://linkedin.com/in/ramvigneshb) - ramvignesh.codes@gmail.com
-Ayush Saini - [LinkedIn](https://linkedin.com/in/) - @gmail.com
-Vibhor - [LinkedIn](https://linkedin.com/in/) - @gmail.com
-Chittaranjan. - [LinkedIn](https://linkedin.com/in/) - @gmail.com
-Alex - [LinkedIn](https://linkedin.com/in/) - @gmail.com
+* RamVignesh B. - [![linkedin-shield]](https://linkedin.com/in/ramvigneshb) - ramvignesh.codes@gmail.com
+* Ayush Saini - [![linkedin-shield]](https://linkedin.com/in/) - @gmail.com
+* Vibhor - [![linkedin-shield]](https://linkedin.com/in/) - @gmail.com
+* Chittaranjan. - [![linkedin-shield]](https://linkedin.com/in/) - @gmail.com
+* Alex - [![linkedin-shield]](https://linkedin.com/in/) - @gmail.com
 
 Project Link: [https://github.com/ayushgd/hms](https://github.com/ayushgd/repo_name)
 
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
+
+*Thanks to.....
 * [Bootstrap-Select](https://developer.snapappointments.com/bootstrap-select/)
 * [State-City JS](https://github.com/ajayrandhawa/Indian-States-Cities-Database)
 * [Choose an Open Source License](https://choosealicense.com)
