@@ -8,7 +8,9 @@ from .Config import db
 # store patient ID for querying
 pid = 0
 
-#Function to implement session management and check the category of stakeholder accessing the website
+# Function to implement session management and check the category of stakeholder accessing the website
+
+
 def check_session():
     if 'user' not in session or not session['user']:
         return None
@@ -65,7 +67,7 @@ def index():
 def create_patient():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive':
+    if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -98,7 +100,7 @@ def create_patient():
 def delete_patient():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive':
+    if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -121,7 +123,7 @@ def delete_patient():
 def delete_patient2():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive':
+    if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -149,7 +151,7 @@ def delete_patient2():
 def search_patient():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive':
+    if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -176,12 +178,10 @@ def search_patient():
 @app.route("/UpdatePatient", methods=["GET", "POST"])
 def update_patient():
     flag = 0
-
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive':
+    if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
-
     form = Patient_delete()
     if form.validate_on_submit():
         global pid
@@ -203,7 +203,7 @@ def update_patient():
 def update_result():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive':
+    if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -224,8 +224,6 @@ def update_result():
                             form2 = Patient_update(Type_of_bed=patient_1.bed_type, date=patient_1.admission_date,
                                                    address=patient_1.address, patient_name=patient_1.name, patient_age=patient_1.age)
                             return render_template("update_patient.html", title="Update Patient", form=form, form2=form2, flag=flag, patient_s=patient)
-
-            print(pid)
             if request.form.get('stt') == "":
                 name = form.patient_name.data
                 age = form.patient_age.data
@@ -268,7 +266,6 @@ def update_result():
         patient = Patient_details.query.filter(Patient_details.id == pid)
         for patient_1 in patient:
             if patient_1:
-
                 flag = 1
                 flash(
                     "Please enter age in integer format and less than or equal to 3 digits in length", "danger")
@@ -286,7 +283,7 @@ def update_result():
 def view_patient():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive':
+    if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -303,7 +300,7 @@ def view_patient():
 def get_patient():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive' and check_session()!= 'pharmacy_executive':
+    if check_session() != 'registration_desk_executive' and check_session() != 'pharmacy_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -316,40 +313,37 @@ def get_patient():
                 Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
-                
                     flash("patient found", "success")
-                    medicine=med_patient(patient_1)
-                    if medicine!=None:
-                    
-                        return render_template("get_patient_details.html", title="Search patient", patient=patient,medicine=medicine.all())
+                    medicine = med_patient(patient_1)
+                    if medicine != None:
+                        return render_template("get_patient_details.html", title="Search patient", patient=patient, medicine=medicine.all())
                     else:
-                        return render_template("get_patient_details.html",title="Search patient",patient=patient)
+                        return render_template("get_patient_details.html", title="Search patient", patient=patient)
             flash("patient not found", "danger")
     return render_template("get_patient_details.html", title="Get Patient Details", form=form)
-    
+
 
 @app.route("/IssueMedicine", methods=["GET", "POST"])
 def issue_medicine():
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive' and check_session()!= 'pharmacy_executive':
+    if check_session() != 'registration_desk_executive' and check_session() != 'pharmacy_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
     global pid
     pid = request.form.get('pid')
-    print(pid)
-    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==pid)== None:
-        print("check null")
-    medicine = Patient_Medicine.query.filter(Patient_Medicine.patient_id==pid)
-    print(medicine)
+    medicine = Patient_Medicine.query.filter(
+        Patient_Medicine.patient_id == pid)
     return render_template("issue_medicine.html", pid=pid, medicine=medicine)
 
+
 def med_patient(patient):
-    mid=patient.id
-    if Patient_Medicine.query.filter(Patient_Medicine.patient_id==mid).first()==None:
+    mid = patient.id
+    if Patient_Medicine.query.filter(Patient_Medicine.patient_id == mid).first() == None:
         return None
     else:
-        x=Patient_Medicine.query.join(Medicine,Patient_Medicine.medicine_id==Medicine.id).filter(Patient_Medicine.patient_id==mid)
+        x = Patient_Medicine.query.join(Medicine, Patient_Medicine.medicine_id == Medicine.id).filter(
+            Patient_Medicine.patient_id == mid)
         return x
 # ==================================================================================
 #                                   Diagnostics
@@ -360,7 +354,7 @@ def med_patient(patient):
 def patient_diagnosis():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive' and check_session()!= 'diagnostic_executive':
+    if check_session() != 'registration_desk_executive' and check_session() != 'diagnostic_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -377,13 +371,13 @@ def patient_diagnosis():
                     return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient, pid=pid)
             flash("patient not found", "danger")
     return render_template("get_patient_diagnosis.html", title="Get Patient Diagnostics", form=form)
-    
+
 
 @app.route("/Diagnostics", methods=["GET", "POST"])
 def diagnostics():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive' and check_session()!= 'diagnostic_executive':
+    if check_session() != 'registration_desk_executive' and check_session() != 'diagnostic_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
@@ -400,17 +394,18 @@ def diagnostics():
 def billing():
 
     # Check that an authorised user only can access this functionality
-    if check_session()!='registration_desk_executive':
+    if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
 
     form = Patient_delete()
     if request.method == 'POST':
-        patient = Patient_details.query.filter(Patient_details.id == int(form.patient_id.data))
+        patient = Patient_details.query.filter(
+            Patient_details.id == int(form.patient_id.data))
         for patient_1 in patient:
             if patient_1:
                 flash("patient found", "success")
-            return render_template('billing.html',patient=patient)
+            return render_template('billing.html', patient=patient)
         flash("patient found", "success")
     return render_template('billing.html', form=form)
 
@@ -427,5 +422,3 @@ def logout():
         session['user'] = None
         flash("Successfully Logged Out!", "success")
     return redirect(url_for('main'))
-
-
