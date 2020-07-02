@@ -25,8 +25,10 @@ class check_med(FlaskForm):
     def __call__(self,form,field):
         name=form.medicine_name.data
         quant=field.data
+        '''
         if Medicine.query.filter(Medicine.medicine_name==name).first()==None:
             raise ValidationError('MEDICINE NOT FOUND IN DATABASE')
+        '''
         medicines=Medicine.query.filter(Medicine.medicine_name==name)
         for medicine in medicines:
             if quant>medicine.medicine_quantity:
@@ -65,7 +67,7 @@ class pass_val(FlaskForm):
 # class for login page form
 class Login_form(FlaskForm):
     username = StringField('username', validators=[DataRequired(),Length(min=8,message="ID should be atleast 8 characters long")])
-    password = PasswordField('password', validators=[DataRequired(),Length(min=10,max=10,message=""),pass_val(message="password should have atleast 1 numeric and 1 special character and 1 uppercase and should be 10 charachters long")])
+    password = PasswordField('password', validators=[DataRequired(),Length(min=10,max=10,message=""),pass_val(message="password should have atleast 1 numeric and 1 special character and 1 uppercase and should be 10 characters long")])
     submit = SubmitField('login')
 
 
@@ -115,7 +117,12 @@ class Patient_update(FlaskForm):
 
 #class for medicine issuing
 class issue_medicine_form(FlaskForm):
-    medicine_name=StringField('Medicine name',validators=[DataRequired('Please enter medicine name '),check_alpha('medicine name has to be alphabet only')])
+    medicine = Medicine.query.all()
+    meds = []
+    for med in medicine:
+        meds.append(med.medicine_name)
+    #medicine_name=StringField('Medicine name',validators=[DataRequired('Please enter medicine name '),check_alpha('medicine name has to be alphabet only')])
+    medicine_name = SelectField('Select a medicine', choices=[], validators=[DataRequired()])
     quantity=IntegerField('QUANTITY', widget = widgets.Input(input_type="number"), validators=[DataRequired('Please enter quantity'),check_med('medicine not found')])
     submit=SubmitField('Add')
 
