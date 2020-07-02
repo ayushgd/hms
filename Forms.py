@@ -119,9 +119,16 @@ class issue_medicine_form(FlaskForm):
     quantity=IntegerField('QUANTITY', widget = widgets.Input(input_type="number"), validators=[DataRequired('Please enter quantity'),check_med('medicine not found')])
     submit=SubmitField('Add')
 
+class add_diagnosis(FlaskForm):
+    x=Diagnosis.query.all()
+    lst=[]
+    label=""
+    for i in x:
+        label=str(i.test_name)+"               :-      Rs."+str(i.test_amount)
+        lst.append((i.test_name,label))
 
-        
-
+    diagnosis=SelectField('diagnosis',choices=lst,validators=[DataRequired('please select a test')])    
+    submit=SubmitField('Add')
          
 
     

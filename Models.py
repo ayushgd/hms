@@ -64,19 +64,23 @@ class Medicine(db.Model):
     def __repr__(self):
         return 'Medicine ' + str(self.id)
 
+
+
+#Patient_Test
+class Patient_test(db.Model):
+   id = db.Column(db.Integer, primary_key=True)
+   patient_id = db.Column(db.Integer, nullable=False)
+   test_id =  db.Column(db.Integer,db.ForeignKey('diagnosis.id'), nullable=False)
+
+
 #Diagnosis
 class Diagnosis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     test_name = db.Column(db.String(45), nullable=False)
     test_amount = db.Column(db.Integer, nullable=False)
     #patient_test_id = db.Column(db.Integer, nullable=False)
+    patient_test=db.relationship(Patient_test,backref="diagnosis")
 
     def __repr__(self):
         return 'Diagnosis ' + str(self.id)
-
-#Patient_Test
-class Patient_test(db.Model):
-   id = db.Column(db.Integer, primary_key=True)
-   patient_id = db.Column(db.Integer, nullable=False)
-   test_id =  db.Column(db.Integer, nullable=False)
    

@@ -1,7 +1,7 @@
 from hms import app
 from datetime import datetime
 from flask import render_template, session, url_for, request, redirect, flash, session, g
-from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update, issue_medicine_form
+from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update, issue_medicine_form,add_diagnosis
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 from .Config import db
 
@@ -9,6 +9,7 @@ from .Config import db
 pid = 0
 issue_med = None
 quantity = []
+add_test=None
 
 # Function to implement session management and check the category of stakeholder accessing the website
 
@@ -423,19 +424,26 @@ def patient_diagnosis():
     if request.method == 'POST':
         if form.validate_on_submit():
             global pid
+            global add_test
             pid = int(form.patient_id.data)
             patient = Patient_details.query.filter(
                 Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
+                    add_test=None
                     flash("patient found", "success")
-                    return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient, pid=pid)
+                    if Patient_test.query.filter(Patient_test.patient_id==patient_1.id).first() == None:
+                        return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient, pid=pid)
+                    else:
+                        x=Patient_test.query.join(Diagnosis,Patient_test.test_id==Diagnosis.id).filter(Patient_test.patient_id==patient_1.id)
+                        return render_template("get_patient_diagnosis.html",title="Search patient",patient=patient,pid=pid,tests=x)
             flash("patient not found", "danger")
     return render_template("get_patient_diagnosis.html", title="Get Patient Diagnostics", form=form)
 
 
 @app.route("/Diagnostics", methods=["GET", "POST"])
 def diagnostics():
+    
 
     # Check that an authorised user only can access this functionality
     if check_session() != 'registration_desk_executive' and check_session() != 'diagnostic_executive':
@@ -443,8 +451,43 @@ def diagnostics():
         return redirect(url_for('main'))
 
     global pid
-    pid = request.form.get('pid')
-    return render_template("diagnostics.html", pid=pid, title="Conduct Diagnostics")
+    global add_test
+    form=add_diagnosis()
+    if form.validate_on_submit():
+        testname=form.diagnosis.data
+        test=Diagnosis.query.filter(Diagnosis.test_name==testname).first()
+        if add_test==None:
+            add_test={}
+            add_test[testname]={'name':testname,'amount':test.test_amount}
+        else:
+            add_test[testname]={'name':testname,'amount':test.test_amount}
+        flash("medicine added","success")
+        return render_template("diagnostics.html",pid=pid,title="Conduct Diagnostics",form=form,tests=add_test)
+            
+        
+
+    #pid = request.form.get('pid')
+    return render_template("diagnostics.html", pid=pid, title="Conduct Diagnostics",form=form,tests=add_test)
+
+@app.route('/updatetest',methods=['GET','POST'])
+def update_test():
+    if check_session() != 'registration_desk_executive' and check_session() != 'diagnostic_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
+    global pid
+    global add_test
+    for i in add_test:
+        name=add_test[i]['name']
+        test=Diagnosis.query.filter(Diagnosis.test_name==name).first()
+        tid=test.id
+        db.session.add(Patient_test(patient_id=pid,test_id=tid))
+        db.session.commit()
+    add_test=None
+    flash("Successfully updated","success")
+    return redirect(url_for('patient_diagnosis'))
+
+
+
 
 
 # ==================================================================================

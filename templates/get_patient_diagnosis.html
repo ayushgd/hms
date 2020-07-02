@@ -58,7 +58,7 @@
   </table>
 <!--Medicine Table-->
 
-{% if not medicine %}
+{% if not tests %}
 <h3 class="text-center">No Diagnosis Conducted!</h3>
 {% endif %}
 {% if tests %}
@@ -75,8 +75,8 @@
       {% for t in tests %}
       <tr>
         <th scope="row">{{t.id}}</th>
-        <td>{{t.name}}</td>
-        <td>{{t.amount}}</td>
+        <td>{{t.diagnosis.test_name}}</td>
+        <td>{{t.diagnosis.test_amount}}</td>
       </tr>
       {% endfor %}
     </tbody>
