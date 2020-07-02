@@ -131,7 +131,7 @@ class add_diagnosis(FlaskForm):
     lst=[]
     label=""
     for i in x:
-        label=str(i.test_name)+"               :-      Rs."+str(i.test_amount)
+        label=str(i.test_name)+"               :-      ₹"+str(i.test_amount)
         lst.append((i.test_name,label))
 
     diagnosis=SelectField('diagnosis',choices=lst,validators=[DataRequired('please select a test')])    
