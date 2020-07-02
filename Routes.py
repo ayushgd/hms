@@ -369,8 +369,9 @@ def issue_medicine():
 
 @app.route("/medicine_update", methods=["GET", "POST"])
 def update():
-    if 'user' not in session or not session['user']:
-        flash('Please Login first!', 'danger')
+    # Check that an authorised user only can access this functionality
+    if check_session() != 'registration_desk_executive' and check_session() != 'pharmacy_executive':
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
     global issue_med
     global pid
@@ -483,6 +484,9 @@ def billing():
 @app.route("/logout")
 def logout():
     # Remove user from the session
+    if not check_session():
+        flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
+        return redirect(url_for('main'))
     if 'user' in session:
         session['user'] = None
         flash("Successfully Logged Out!", "success")
