@@ -127,15 +127,19 @@
     </tbody>
   </table>
 
+{% if patient %}
 <h2 class="text-center" style="color: var(--origin); font-weight: bold; width: 350px; border: 2px dashed var(--origin); margin: auto;">Grand Total: ₹{{ tbill + mbill + total|int }}</h2>
-  <div class="text-center" >
-    <form class="text-center" method="POST" action="{{url_for('billing')}}">
-        <input name="pid" type="number" hidden value=""/>
-        <br/>
-         <div class="form-group text-center" >
-             <input type="submit" class="btnSubmit text-center" value="Confirm ✔" style="color: var(--light); border-radius:19px; background-color: var(--origin); width: 180px; padding: 10px;"/>               
-         </div>
-     </form> 
- </div>
+<div class="text-center" >
+  <form class="text-center" method="POST" action="{{url_for('discharge')}}">
+      <input name="pid" type="number" hidden value="{{patient[0].id}}"/>
+      <br/>
+       <div class="form-group text-center" >
+           <input type="submit" class="btnSubmit text-center" value="Confirm ✔" style="color: var(--light); border-radius:19px; background-color: var(--origin); width: 180px; padding: 10px;"/>               
+       </div>
+   </form> 
+</div>
+{% endif %}
+  
+
 
 {% endblock %}

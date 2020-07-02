@@ -518,7 +518,6 @@ def billing():
         mbill=0
         tbill=0
         if form.validate_on_submit():
-
             patient = Patient_details.query.filter(Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
@@ -526,11 +525,13 @@ def billing():
                     mbill=0
                     tbill=0
                     medicine=med_patient(patient_1)
-                    for m in medicine:
-                        mbill=mbill+(m.medicine.medicine_amount*m.medicine_quantity)
+                    if medicine:
+                        for m in medicine:
+                            mbill=mbill+(m.medicine.medicine_amount*m.medicine_quantity)
                     test=Patient_test.query.join(Diagnosis,Patient_test.test_id==Diagnosis.id).filter(Patient_test.patient_id==patient_1.id)
-                    for t in test:
-                        tbill=tbill+t.diagnosis.test_amount
+                    if test:
+                        for t in test:
+                            tbill=tbill+t.diagnosis.test_amount
                     days = date.today() - patient[0].admission_date
                     if patient[0].bed_type.lower() == 'general ward':
                         charges = 2000
@@ -542,6 +543,14 @@ def billing():
             flash("Patient not found", "danger")
     return render_template('billing.html', form=form,tbill=tbill,mbill=mbill,total=0)
 
+@app.route('/Discharge', methods=["POST"])
+def discharge():
+    patient = Patient_details.query.filter_by(id = request.form.get('pid')).first()
+    if patient:
+        patient.status = 'Discharged'
+        db.session.commit()
+        flash("Successfully Discharged the patient!", "success")
+    return redirect(url_for('billing'))
 
 # ==================================================================================
 #                                 Delete the user Session
