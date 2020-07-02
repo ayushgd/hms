@@ -1,12 +1,14 @@
 from hms import app
 from datetime import datetime
 from flask import render_template, session, url_for, request, redirect, flash, session, g
-from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update
+from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update, issue_medicine_form
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 from .Config import db
 
 # store patient ID for querying
 pid = 0
+issue_med = None
+quantity = []
 
 # Function to implement session management and check the category of stakeholder accessing the website
 
@@ -178,10 +180,12 @@ def search_patient():
 @app.route("/UpdatePatient", methods=["GET", "POST"])
 def update_patient():
     flag = 0
+
     # Check that an authorised user only can access this functionality
     if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
+
     form = Patient_delete()
     if form.validate_on_submit():
         global pid
@@ -224,6 +228,8 @@ def update_result():
                             form2 = Patient_update(Type_of_bed=patient_1.bed_type, date=patient_1.admission_date,
                                                    address=patient_1.address, patient_name=patient_1.name, patient_age=patient_1.age)
                             return render_template("update_patient.html", title="Update Patient", form=form, form2=form2, flag=flag, patient_s=patient)
+
+            print(pid)
             if request.form.get('stt') == "":
                 name = form.patient_name.data
                 age = form.patient_age.data
@@ -266,6 +272,7 @@ def update_result():
         patient = Patient_details.query.filter(Patient_details.id == pid)
         for patient_1 in patient:
             if patient_1:
+
                 flag = 1
                 flash(
                     "Please enter age in integer format and less than or equal to 3 digits in length", "danger")
@@ -308,14 +315,18 @@ def get_patient():
     if request.method == 'POST':
         if form.validate_on_submit():
             global pid
+            global issue_med
             pid = int(form.patient_id.data)
             patient = Patient_details.query.filter(
                 Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
+
                     flash("patient found", "success")
+                    issue_med = None
                     medicine = med_patient(patient_1)
                     if medicine != None:
+
                         return render_template("get_patient_details.html", title="Search patient", patient=patient, medicine=medicine.all())
                     else:
                         return render_template("get_patient_details.html", title="Search patient", patient=patient)
@@ -329,14 +340,62 @@ def issue_medicine():
     if check_session() != 'registration_desk_executive' and check_session() != 'pharmacy_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
-
+    global issue_med
     global pid
-    pid = request.form.get('pid')
-    medicine = Patient_Medicine.query.filter(
-        Patient_Medicine.patient_id == pid)
-    return render_template("issue_medicine.html", pid=pid, medicine=medicine)
+    form = issue_medicine_form()
+    if form.validate_on_submit():
+        name = form.medicine_name.data
+        quantity = form.quantity.data
+        med = Medicine.query.filter(
+            Medicine.medicine_name == form.medicine_name.data).first()
+        medid = med.id
+        rate = med.medicine_amount
+        if issue_med == None:
+            issue_med = {}
+            issue_med[name] = {
+                'name': name, 'quantity': quantity, 'medid': medid, 'rate': rate}
+        else:
+            issue_med[name] = {
+                'name': name, 'quantity': quantity, 'medid': medid, 'rate': rate}
+        flash("medicine added", "success")
+        return render_template("issue_medicine.html", form=form, medicine=issue_med)
+
+    return render_template("issue_medicine.html", form=form, medicine=issue_med)
 
 
+@app.route("/medicine_update", methods=["GET", "POST"])
+def update():
+    if 'user' not in session or not session['user']:
+        flash('Please Login first!', 'danger')
+        return redirect(url_for('main'))
+    global issue_med
+    global pid
+    for i in issue_med:
+        med_name = str(issue_med[i]['name'])
+        med_id = int(issue_med[i]['medid'])
+        med_quant = int(issue_med[i]['quantity'])
+        medicine = Medicine.query.filter(
+            Medicine.medicine_name == med_name).first()
+        current_quant = medicine.medicine_quantity
+        new_quant = current_quant-med_quant
+        patient = Patient_Medicine.query.filter(
+            Patient_Medicine.patient_id == pid, Patient_Medicine.medicine_id == med_id).first()
+        if patient == None:
+            db.session.add(Patient_Medicine(
+                patient_id=pid, medicine_quantity=med_quant, medicine_id=med_id))
+            medicine.medicine_quantiy = new_quant
+            db.session.commit()
+
+        else:
+            medicine.medicine_quantity = new_quant
+            patient.medicine_quantity += med_quant
+            db.session.commit()
+    issue_med = None
+    flash("successfully updated", "success")
+    return redirect(url_for('get_patient'))
+
+
+# function to retrieve patient medicines
 def med_patient(patient):
     mid = patient.id
     if Patient_Medicine.query.filter(Patient_Medicine.patient_id == mid).first() == None:
@@ -345,6 +404,8 @@ def med_patient(patient):
         x = Patient_Medicine.query.join(Medicine, Patient_Medicine.medicine_id == Medicine.id).filter(
             Patient_Medicine.patient_id == mid)
         return x
+
+
 # ==================================================================================
 #                                   Diagnostics
 # ==================================================================================
