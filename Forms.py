@@ -33,8 +33,8 @@ class check_med(FlaskForm):
         '''
         medicines = Medicine.query.filter(Medicine.medicine_name == name)
         for medicine in medicines:
-            if quant > medicine.medicine_quantity:
-                raise ValidationError("Medicine quantity entered is more than available. Available quantiy={}".format(
+            if quant > medicine.medicine_quantity or quant < 0:
+                raise ValidationError("Medicine quantity entered is more than available Quantity!. Available Quantity={}".format(
                     medicine.medicine_quantity))
 
 # custom validator to check password while logging in
