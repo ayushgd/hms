@@ -108,7 +108,7 @@ class delete_result(FlaskForm):
 
 class Patient_update(FlaskForm):
     patient_name = StringField('patient name', validators=[ DataRequired('please enter name')])
-    patient_age = IntegerField('patient age', validators=[ DataRequired('please enter age'), check_length(min=1, max=3, message="age should be 1-3 digits long")])
+    patient_age = IntegerField('patient age', widget = widgets.Input(input_type="number"), validators=[ DataRequired('please enter age'), check_length(min=1, max=3, message="age should be 1-3 digits long")])
     date = DateField('enter date', format="%Y-%m-%d", validators=[ DataRequired('please enter date')], default=datetime.date.today())
     Type_of_bed = SelectField('bed type', choices=[('General ward', 'General ward'), ('Semi sharing', 'Semi sharing'), ('single room', 'single room')], validators=[DataRequired('select ward type')])
     address = StringField('enter address', validators=[DataRequired('enter the address')])
