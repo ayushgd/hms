@@ -2,13 +2,23 @@
   --main-color: #abd6da;
   --dark: #111;
   --origin: #2e8690;
+  --darkless: #90c7ce;
   --light: #e7fdff;
+  --grey: rgb(136, 136, 136);
 }
 
 /* Body */
 
 body {
-  transition: all 1s ease;
+  font-family: 'Oswald', sans-serif !important;
+}
+
+h4 {
+  color: var(--grey);
+}
+
+main {
+  min-height: 55vh;
 }
 
 /* Header */
@@ -272,8 +282,17 @@ header, .footer-clean {
 .login-container{
   margin: 30px auto;
   text-align: center;
-  width: 500px;
+  max-width: 500px;
+  width: 95vw;
   border-radius: 30px;
+}
+
+label {
+  margin-bottom: 0px !important;
+}
+
+.form-group {
+  margin-bottom: .8rem;
 }
 
 .login-form-2{
@@ -292,7 +311,7 @@ header, .footer-clean {
 .btnSubmit
 {
   width: 50%;
-  border-radius: 1rem;
+  border-radius: .5rem;
   padding: 1.5%;
   border: none;
   cursor: pointer;
@@ -304,5 +323,43 @@ header, .footer-clean {
   background-color: var(--dark);
 }
 
+/* Table */
 
+.results tr[visible='false'], .no-result {
+  display: none;
+}
 
+.counter {
+  padding: 8px;
+  color: #ccc;
+  margin: -10px auto 0px;
+}
+
+table {
+  max-width: 1200px;
+  width: 95vw;
+  margin: 0 auto;
+}
+
+thead tr th {
+  font-weight: normal;
+  background-color: var(--origin) !important;
+  color: var(--light) !important;
+}
+
+#search_bar {
+  width: 300px;
+  margin: 30px auto 0px auto;
+}
+
+table.table-bordered > thead > tr > th{
+  border:2px solid var(--darkless);
+}
+
+table.table-bordered > tbody > tr > td{
+  border:2px solid var(--darkless);
+}
+
+table.table-bordered > tbody > tr > th{
+  border:2px solid var(--darkless);
+}
