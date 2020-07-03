@@ -1,5 +1,7 @@
 #Virtual ENV
 .hms
+env/
+
 #_pycache_
 __pycache__/*
 *.pyc
