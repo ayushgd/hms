@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Email, Length, ValidationError
 import datetime
 from wtforms.fields.html5 import DateField, widgets
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
-
+import re
 
 class check_alpha(FlaskForm):
     def __init__(self, message):
@@ -120,6 +120,10 @@ class Patient_create(FlaskForm):
         if not patient_name.data.isalpha():
             raise ValidationError("Name cannot contain numbers/ symbols")
 
+    def validate_address(form,address):
+        if not re.match("^[a-zA-Z0-9,. ]*$", address.data):
+            raise ValidationError("Address can only contain alphabets, numbers, comma and periods!")
+
 
 # class for delete patient form
 class Patient_delete(FlaskForm):
@@ -145,6 +149,18 @@ class Patient_update(FlaskForm):
     address = StringField('enter address', validators=[
                           DataRequired('enter the address')])
     submit = SubmitField('update')
+
+    def validate_date(form, date):
+        if date.data > datetime.date.today():
+            raise ValidationError("Date of Admission cannot exceed today's date!")
+    
+    def validate_patient_name(form,patient_name):
+        if not patient_name.data.isalpha():
+            raise ValidationError("Name cannot contain numbers/ symbols")
+
+    def validate_address(form,address):
+        if not re.match("^[a-zA-Z0-9,. ]*$", address.data):
+            raise ValidationError("Address can only contain alphabets, numbers, comma and periods!")
 
 
 # class for medicine issuing
