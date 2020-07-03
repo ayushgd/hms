@@ -404,7 +404,7 @@ def update():
             # Query for Patient_Medicine 
             db.session.add(Patient_Medicine(
                 patient_id=pid, medicine_quantity=med_quant, medicine_id=med_id))
-            medicine.medicine_quantiy = new_quant
+            medicine.medicine_quantity = new_quant
             db.session.commit()
         else:
             # Update Medicine Quantity
