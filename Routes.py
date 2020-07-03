@@ -1,7 +1,7 @@
 from hms import app
 from datetime import datetime, date
 from flask import render_template, session, url_for, request, redirect, flash, session, g
-from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update, issue_medicine_form,add_diagnosis
+from .Forms import Login_form, Patient_create, Patient_delete, delete_result, Patient_update, issue_medicine_form, add_diagnosis
 from .Models import UserStore, Patient_test, Patient_Medicine, Patient_details, Diagnosis, Medicine
 from .Config import db
 
@@ -9,7 +9,8 @@ from .Config import db
 pid = 0
 issue_med = None
 quantity = []
-add_test=None
+add_test = None
+
 
 @app.context_processor
 def inject_now():
@@ -34,6 +35,7 @@ def check_session():
             session['stakeholder'] = 'pharmacy_executive'
             return 'pharmacy_executive'
 
+
 # ==================================================================================
 #                                   Home and Login
 # ==================================================================================
@@ -50,11 +52,11 @@ def main():
         if form.validate_on_submit():
             # Check the credentials
             if UserStore.query.filter_by(login=request.form.get('username'), password=request.form.get('password')).first():
-                flash("Login successful", "success")
+                flash("Login successful!", "success")
                 session['user'] = request.form.get('username')
                 return redirect(url_for('main'))
             else:
-                flash("Invalid credentials", "danger")
+                flash("Invalid credentials!", "danger")
                 return render_template('login.html', title="Login", form=form)
     return render_template('login.html', title="Login", form=form)
 
@@ -91,6 +93,7 @@ def create_patient():
             address = form.address.data
             state = request.form.get('stt')
             city = request.form.get('state_list')
+            # Add the patient to the database
             details = Patient_details(
                 name, age, ssn_id, date, bed_type, address, city, state, status="Admitted")
             db.session.add(details)
@@ -116,6 +119,7 @@ def delete_patient():
     if form.validate_on_submit():
         global pid
         pid = int(form.patient_id.data)
+        # Query for patient_details
         patient = Patient_details.query.filter(
             Patient_details.id == int(form.patient_id.data))
         for patient_1 in patient:
@@ -168,6 +172,7 @@ def search_patient():
         if form.validate_on_submit():
             global pid
             pid = int(form.patient_id.data)
+            # Query for patient_details
             patient = Patient_details.query.filter(
                 Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
@@ -196,12 +201,14 @@ def update_patient():
     if form.validate_on_submit():
         global pid
         pid = int(form.patient_id.data)
+        # Query for patient details
         patient = Patient_details.query.filter(
             Patient_details.id == int(form.patient_id.data))
         for patient_1 in patient:
             if patient_1:
                 flash("patient found", "success")
                 flag = 1
+                # Display the update form
                 form2 = Patient_update(Type_of_bed=patient_1.bed_type, date=patient_1.admission_date,
                                        address=patient_1.address, patient_name=patient_1.name, patient_age=patient_1.age)
                 return render_template("update_patient.html", title="Update Patient", form=form, form2=form2, flag=flag, patient_s=patient)
@@ -223,6 +230,7 @@ def update_result():
             global pid
             if request.form.get('stt') != "":
                 if request.form.get('state_list') == None or request.form.get('state_list') == "":
+                    # Query for patient Details
                     patient = Patient_details.query.filter(
                         Patient_details.id == pid)
                     for patient_1 in patient:
@@ -234,19 +242,16 @@ def update_result():
                             form2 = Patient_update(Type_of_bed=patient_1.bed_type, date=patient_1.admission_date,
                                                    address=patient_1.address, patient_name=patient_1.name, patient_age=patient_1.age)
                             return render_template("update_patient.html", title="Update Patient", form=form, form2=form2, flag=flag, patient_s=patient)
-
-            print(pid)
             if request.form.get('stt') == "":
                 name = form.patient_name.data
                 age = form.patient_age.data
                 date = form.date.data
                 bed_type = form.Type_of_bed.data
                 address = form.address.data
-
+                # Update the patient_details table
                 Patient_details.query.filter_by(id=pid).update({"name": name})
                 Patient_details.query.filter_by(
                     id=pid).update({"admission_date": date})
-
                 Patient_details.query.filter_by(id=pid).update({"age": age})
                 Patient_details.query.filter_by(
                     id=pid).update({"bed_type": bed_type})
@@ -260,6 +265,7 @@ def update_result():
                 address = form.address.data
                 city = request.form.get('state_list')
                 state = request.form.get('stt')
+                # Update the patient_details table
                 Patient_details.query.filter_by(id=pid).update({"name": name})
                 Patient_details.query.filter_by(
                     id=pid).update({"admission_date": date})
@@ -271,17 +277,16 @@ def update_result():
                     id=pid).update({"bed_type": bed_type})
                 Patient_details.query.filter_by(
                     id=pid).update({"address": address})
-
+            # Commit the changes
             db.session.commit()
-            flash("Patient update intiated successfully ", "success")
+            flash("Patient update intiated successfully!", "success")
             return redirect(url_for('update_patient'))
+        # Query for patient_details
         patient = Patient_details.query.filter(Patient_details.id == pid)
         for patient_1 in patient:
             if patient_1:
-
                 flag = 1
-                flash(
-                    "Please enter age in integer format and less than or equal to 3 digits in length", "danger")
+                flash("Please enter AGE in integer format and less than or equal to 3 digits in length!", "danger")
                 form2 = Patient_update(Type_of_bed=patient_1.bed_type, date=patient_1.admission_date,
                                        address=patient_1.address, patient_name=patient_1.name, patient_age=patient_1.age)
                 return render_template("update_patient.html", title="Update Patient", form=form, form2=form2, flag=flag, patient_s=patient)
@@ -299,7 +304,7 @@ def view_patient():
     if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
-
+    # Query for all admitted patients
     patient = Patient_details.query.filter_by(status="Admitted")
     return render_template("view_patients.html", patients=patient)
 
@@ -323,16 +328,15 @@ def get_patient():
             global pid
             global issue_med
             pid = int(form.patient_id.data)
+            # Query for patient details
             patient = Patient_details.query.filter(
                 Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
-
-                    flash("patient found", "success")
+                    flash("Patient found!", "success")
                     issue_med = None
                     medicine = med_patient(patient_1)
                     if medicine != None:
-
                         return render_template("get_patient_details.html", title="Search patient", patient=patient, medicine=medicine.all())
                     else:
                         return render_template("get_patient_details.html", title="Search patient", patient=patient)
@@ -352,14 +356,18 @@ def issue_medicine():
     form.medicine_name.choices = []
     medicine = Medicine.query.all()
     for med in medicine:
-        form.medicine_name.choices += [(med.medicine_name, '   ' + med.medicine_name + ' || Qty: ' + str(med.medicine_quantity))]
+        # Populate the medicine select form
+        form.medicine_name.choices += [(med.medicine_name, '   ' +
+                                        med.medicine_name + ' || Qty: ' + str(med.medicine_quantity))]
     if form.validate_on_submit():
         name = form.medicine_name.data
         quantity = form.quantity.data
+        # Query for medicines
         med = Medicine.query.filter(
             Medicine.medicine_name == form.medicine_name.data).first()
         medid = med.id
         rate = med.medicine_amount
+        # Update issue_med dict
         if issue_med == None:
             issue_med = {}
             issue_med[name] = {
@@ -367,9 +375,8 @@ def issue_medicine():
         else:
             issue_med[name] = {
                 'name': name, 'quantity': quantity, 'medid': medid, 'rate': rate}
-        flash("medicine added", "success")
+        flash("Medicine Added!", "success")
         return render_template("issue_medicine.html", form=form, medicine=issue_med)
-
     return render_template("issue_medicine.html", form=form, medicine=issue_med)
 
 
@@ -385,19 +392,22 @@ def update():
         med_name = str(issue_med[i]['name'])
         med_id = int(issue_med[i]['medid'])
         med_quant = int(issue_med[i]['quantity'])
+        # Query for Medicines
         medicine = Medicine.query.filter(
             Medicine.medicine_name == med_name).first()
         current_quant = medicine.medicine_quantity
         new_quant = current_quant-med_quant
+        # Query for patient_medicines
         patient = Patient_Medicine.query.filter(
             Patient_Medicine.patient_id == pid, Patient_Medicine.medicine_id == med_id).first()
         if patient == None:
+            # Query for Patient_Medicine 
             db.session.add(Patient_Medicine(
                 patient_id=pid, medicine_quantity=med_quant, medicine_id=med_id))
             medicine.medicine_quantiy = new_quant
             db.session.commit()
-
         else:
+            # Update Medicine Quantity
             medicine.medicine_quantity = new_quant
             patient.medicine_quantity += med_quant
             db.session.commit()
@@ -440,46 +450,44 @@ def patient_diagnosis():
                 Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
-                    add_test=None
+                    add_test = None
                     flash("patient found", "success")
-                    if Patient_test.query.filter(Patient_test.patient_id==patient_1.id).first() == None:
+                    # Query for patient_diagnostics
+                    if Patient_test.query.filter(Patient_test.patient_id == patient_1.id).first() == None:
                         return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient, pid=pid)
                     else:
-                        x=Patient_test.query.join(Diagnosis,Patient_test.test_id==Diagnosis.id).filter(Patient_test.patient_id==patient_1.id)
-                        return render_template("get_patient_diagnosis.html",title="Search patient",patient=patient,pid=pid,tests=x)
+                        x = Patient_test.query.join(Diagnosis, Patient_test.test_id == Diagnosis.id).filter(
+                            Patient_test.patient_id == patient_1.id)
+                        return render_template("get_patient_diagnosis.html", title="Search patient", patient=patient, pid=pid, tests=x)
             flash("patient not found", "danger")
     return render_template("get_patient_diagnosis.html", title="Get Patient Diagnostics", form=form)
 
 
 @app.route("/Diagnostics", methods=["GET", "POST"])
 def diagnostics():
-    
 
     # Check that an authorised user only can access this functionality
     if check_session() != 'registration_desk_executive' and check_session() != 'diagnostic_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
-
     global pid
     global add_test
-    form=add_diagnosis()
+    form = add_diagnosis()
     if form.validate_on_submit():
-        testname=form.diagnosis.data
-        test=Diagnosis.query.filter(Diagnosis.test_name==testname).first()
-        if add_test==None:
-            add_test={}
-            add_test[testname]={'name':testname,'amount':test.test_amount}
+        testname = form.diagnosis.data
+        # Query for Diagnostics
+        test = Diagnosis.query.filter(Diagnosis.test_name == testname).first()
+        if add_test == None:
+            add_test = {}
+            add_test[testname] = {'name': testname, 'amount': test.test_amount}
         else:
-            add_test[testname]={'name':testname,'amount':test.test_amount}
-        flash("medicine added","success")
-        return render_template("diagnostics.html",pid=pid,title="Conduct Diagnostics",form=form,tests=add_test)
-            
-        
+            add_test[testname] = {'name': testname, 'amount': test.test_amount}
+        flash("medicine added", "success")
+        return render_template("diagnostics.html", pid=pid, title="Conduct Diagnostics", form=form, tests=add_test)
+    return render_template("diagnostics.html", pid=pid, title="Conduct Diagnostics", form=form, tests=add_test)
 
-    #pid = request.form.get('pid')
-    return render_template("diagnostics.html", pid=pid, title="Conduct Diagnostics",form=form,tests=add_test)
 
-@app.route('/updatetest',methods=['GET','POST'])
+@app.route('/updatetest', methods=['GET', 'POST'])
 def update_test():
     if check_session() != 'registration_desk_executive' and check_session() != 'diagnostic_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
@@ -487,17 +495,16 @@ def update_test():
     global pid
     global add_test
     for i in add_test:
-        name=add_test[i]['name']
-        test=Diagnosis.query.filter(Diagnosis.test_name==name).first()
-        tid=test.id
-        db.session.add(Patient_test(patient_id=pid,test_id=tid))
+        name = add_test[i]['name']
+        # Query for diagnostics
+        test = Diagnosis.query.filter(Diagnosis.test_name == name).first()
+        tid = test.id
+        # Add the diagnostic to db
+        db.session.add(Patient_test(patient_id=pid, test_id=tid))
         db.session.commit()
-    add_test=None
-    flash("Successfully updated","success")
+    add_test = None
+    flash("Successfully updated", "success")
     return redirect(url_for('patient_diagnosis'))
-
-
-
 
 
 # ==================================================================================
@@ -511,45 +518,59 @@ def billing():
     if check_session() != 'registration_desk_executive':
         flash('You are not authorised to access that! Please login with proper credentials.', 'danger')
         return redirect(url_for('main'))
-    mbill=0
-    tbill=0
+    mbill = 0
+    tbill = 0
     form = Patient_delete()
     if request.method == 'POST':
-        mbill=0
-        tbill=0
+        mbill = 0
+        tbill = 0
         if form.validate_on_submit():
-            patient = Patient_details.query.filter(Patient_details.id == int(form.patient_id.data))
+            # Query for patient details
+            patient = Patient_details.query.filter(
+                Patient_details.id == int(form.patient_id.data))
             for patient_1 in patient:
                 if patient_1:
                     flash("Patient found", "success")
-                    mbill=0
-                    tbill=0
-                    medicine=med_patient(patient_1)
+                    mbill = 0
+                    tbill = 0
+                    medicine = med_patient(patient_1)
                     if medicine:
                         for m in medicine:
-                            mbill=mbill+(m.medicine.medicine_amount*m.medicine_quantity)
-                    test=Patient_test.query.join(Diagnosis,Patient_test.test_id==Diagnosis.id).filter(Patient_test.patient_id==patient_1.id)
+                            mbill = mbill + \
+                                (m.medicine.medicine_amount*m.medicine_quantity)
+                    # Query for patient diagnostics
+                    test = Patient_test.query.join(Diagnosis, Patient_test.test_id == Diagnosis.id).filter(
+                        Patient_test.patient_id == patient_1.id)
                     if test:
                         for t in test:
-                            tbill=tbill+t.diagnosis.test_amount
+                            tbill = tbill+t.diagnosis.test_amount
+                    # Calculate the number of days since the admission
                     days = date.today() - patient[0].admission_date
+                    # Calculate the room charges
                     if patient[0].bed_type.lower() == 'general ward':
                         charges = 2000
                     elif patient[0].bed_type.lower() == 'semi sharing':
                         charges = 4000
                     elif patient[0].bed_type.lower() == 'single room':
                         charges = 8000
-                    return render_template('billing.html', patient=patient,medicine=medicine,tests=test,mbill=mbill,tbill=tbill,days=days,charges=charges,total=str(days*charges).replace("days, 0:00:00",""))
-            flash("Patient not found", "danger")
-    return render_template('billing.html', form=form,tbill=tbill,mbill=mbill,total=0)
+                    return render_template('billing.html', patient=patient, medicine=medicine, tests=test, mbill=mbill, tbill=tbill, days=days, charges=charges, total=str(days * charges).replace("days, 0:00:00", ""), pid=patient[0].id)
+            flash("Patient not found!", "danger")
+    return render_template('billing.html', form=form, tbill=tbill, mbill=mbill, total=0)
+
 
 @app.route('/Discharge', methods=["POST"])
 def discharge():
-    patient = Patient_details.query.filter_by(id = request.form.get('pid')).first()
+    patient = Patient_details.query.filter_by(
+        id=request.form.get('pid')).first()
     if patient:
-        patient.status = 'Discharged'
-        db.session.commit()
-        flash("Successfully Discharged the patient!", "success")
+        # Check if the patient is already discharged
+        if patient.status == 'Discharged':
+            flash("Patient already Discharged!", "danger")
+        else:
+            # Discharge the patient
+            patient.status = 'Discharged'
+            db.session.commit()
+            flash("Successfully Discharged the patient!", "success")
     return redirect(url_for('billing'))
 
 # ==================================================================================
