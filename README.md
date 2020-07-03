@@ -30,6 +30,7 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
+  * [Usage](#usage)
 * [Contributing](#contributing)
 * [License](#license)
 * [Contact](#contact)
@@ -87,6 +88,30 @@ flask run
 ```
 http://localhost:5000/
 ```
+
+
+### Usage
+
+#### Login Credentials:
+
+* Admin Executive
+```sh
+Username: 12345678@A
+Password: 12345678@A
+```
+
+* Pharmacist
+```sh
+Username: 12345678@P
+Password: 12345678@P
+```
+
+* Diagnostic Executive
+```sh
+Username: 12345678@D
+Password: 12345678@D
+```
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
