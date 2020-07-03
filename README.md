@@ -112,6 +112,12 @@ Username: 12345678@D
 Password: 12345678@D
 ```
 
+*Note While creating new login credentials please set the ending character with accordance to the role of the stakeholder.*
+
+    * Admin Executive: A
+    * Pharmacist: P
+    * Diagnostic Executive: D
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
