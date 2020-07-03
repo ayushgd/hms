@@ -357,8 +357,7 @@ def issue_medicine():
     medicine = Medicine.query.all()
     for med in medicine:
         # Populate the medicine select form
-        form.medicine_name.choices += [(med.medicine_name, '   ' +
-                                        med.medicine_name + ' || Qty: ' + str(med.medicine_quantity))]
+        form.medicine_name.choices += [(med.medicine_name, med.medicine_name + ' || Qty: ' + str(med.medicine_quantity))]
     if form.validate_on_submit():
         name = form.medicine_name.data
         quantity = form.quantity.data
